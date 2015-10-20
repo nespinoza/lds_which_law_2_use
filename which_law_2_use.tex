@@ -107,8 +107,8 @@ actually the worst option if one is willing to obtain precise \textit{and} accur
 with the last one (the fact that we do not have a perfect modelling of the stellar intensity profiles of real stars) having an unknown but possibly 
 large impact on them. 
 
-Given the above, unless the data quality is really poor, there is actually no good reason why one would actually want to fix the 
-limb-darkening coefficients in the transit fitting process (assuming computational resources are not an issue). However, although fitting the 
+Given the above, unless the data quality is really poor (and one is willing to sacrifice bias over variance), there is actually no good reason why one would 
+actually want to fix the limb-darkening coefficients in the transit fitting process (assuming computational resources are not an issue). However, although fitting the 
 limb-darkening coefficients seems to be a good solution to the accuracy problem, this still has the issue of the low flexibility of the quadratic limb-darkening 
 law which still causes important biases on the retrieved transit parameters according to EJ15, which can be a large as $\sim 1\%$ for the planet-to-star 
 radius ratio $R_p/R_*$, $\sim 2\%$ for the scaled semi-major axis, $a/R_*$, and $2\%$ for the inclination, where $R_p$ is the planetary radius, $R_*$ 
@@ -152,7 +152,7 @@ detailing when one law should be preferred over the other.
 This work is organised as follows. In \S2, we first revisit the logarithmic and exponential 
 laws in order to try to derive an efficient informative sampling strategy following the methods in \cite{kipping2013} for the standard forms of these laws. 
 In \S3 we use those results in addition to the ones published by \cite{kipping2013} and \cite{kipping2015} in order to simulate transit lightcurves to test 
-how well these laws perform in retrieving transit parameters. In \S4 we present a discussion of our work and present our conclusions in \S5.
+how well these laws perform in retrieving transit parameters. In \S4 we present a discussion and conclusions of our work.
 
 % #################################################################################################################################
 % #################################################################################################################################
@@ -447,19 +447,33 @@ those host stars the biases introduced on this parameter are on the order of $\s
 
 Overall, as expected, the law that retrieves the parameters with minimum bias in low impact-parameter transits is the three-parameter law. However, for 
 high impact-parameter transits of small planets, the logarithmic and square-root law seem to outperform this law in general if the objective is to retrieve 
-a minimum bias estimator for $p$. This is probably due to the fact that the law is so flexible that it allows for small distortions of the transit lightcurve that, 
-in this case, mimics variations that were actually attributable to $p$, adding a small but important bias on the retrieved parameter (\textbf{NE: maybe I should 
-plot a transit fit showing this?}). However, for the other 
+a minimum bias estimator for $p$. This is due to the fact that the law is so flexible that it allows for small distortions of the transit lightcurve that, 
+in this case, mimics variations that were actually attributable to $p$, adding a small but important bias on the retrieved parameter. However, for the other 
 parameters ($a_R$ and $i$) this law seems to be the best choice in terms of the achieved accuracy.
 
-\section{Discussion}
-\section{Conclusions}
+\section{Discussion \& Conclusions}
+In this work we have explored the different biases on the retrieved transit parameters by the usage of different limb-darkening laws. In particular, we 
+explored the biases introduced by using three two-parameter laws (the quadratic, logarithmic and square-root laws) and the three-parameter law, for which 
+we showed that a careful selection of the limb-darkening law to be used in a given dataset can allow one to retrieve minimum bias estimators for the transit 
+parameters from transit lightcurves. In general, as shown in \S3, these two-parameter laws have ranges in which they perform at the same level or even better 
+than the three-parameter law and, because of this, we encourage their use. We also discourage the usage of the exponential law which, as shown in \S2.2 is 
+unphysical, and can lead to numerical errors if used on real data where sampling of points close to the limb (where the law diverges) is not uncommon.
+
+The question of \textit{when} to use each of those laws is an important one. In particular, we have explored the relation between the \textit{real}, underlying 
+transit parameters, the stellar host properties and the bias on the retrieved transit parameters, but we have stated no specific rule regarding when to use each 
+law, but only guidelines based on our simulations. This was made on purpose, as the selection of which law to use has to be done in a case-by-case basis, reason 
+by which we provide a code with which one can obtain the results for the same simulations for specific 
+cases and with different resolutions\footnote{\url{http://www.github.com/nespinoza/ld-simulations/}}. It is important to note that in this work we have used the 
+Kepler bandpass to study the relation between the biases on the retrieved transit parameters and the stellar host properties, but different bandpasses should give 
+rise to slightly different functional relations because they give rise to different model intensity profiles, which are used in those simulations to approximate the 
+expected intensity profile and the adequacy of each limb-darkening law at following it. As such, limb-darkening coefficients have to be calculated for each 
+particular case, which is straightforward to do using the algorithms described in EJ15\footnote{\url{http://www.github.com/nespinoza/limb-darkening/}}.
 
 \section{Acknowledgmenets}
 
 N.E. is supported by CONICYT-PCHA/Doctorado Nacional. A.J. acknowledges 
 support from FONDECYT project 1130857, the Ministry
-for the Economy, Development, and Tourism’s Programa Iniciativa
+for the Economy, Development, and Tourism Programa Iniciativa
 Cient\'ifica Milenio through grant IC 120009, awarded to the
 Millennium Institute of Astrophysics (MAS), and from BASAL CATA
 PFB-06. 
