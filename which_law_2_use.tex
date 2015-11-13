@@ -52,7 +52,7 @@
 N\'estor Espinoza$^{1,2}$\thanks{E-mail:nespino@astro.puc.cl}, 
 Andr\'es Jord\'an$^{1,2}$\thanks{E-mail:ajordan@astro.puc.cl}\\ 
 $^{1}$Instituto de Astrof\'isica, Pontificia Universidad Cat\'olica de Chile, Vicu\~na Mackenna 
-4860, Santiago, Chile
+4860, Santiago, Chile\\
 $^{2}$Millennium Institute of Astrophysics, Santiago, Chile\\
 }
 \begin{document}
@@ -99,7 +99,7 @@ In a recent study \citep[][hereon EJ15]{ej2015}, we showed that the accuracy is 
 of these measurements due to our imperfect understanding of the limb-darkening effect. In particular, we showed that there are important 
 biases both when fixing and fitting for the limb-darkening coefficients in the light curve fitting process. The biases when fitting for the limb darkening coefficients arise from the fact 
 that the popular and widely used quadratic law is unable to model the complex intensity profile of real stars,  and the biases when fixing the coefficients arise for the
-same reason plus the facts that different methods of fitting the model intensity profiles (transit light curve versus intensity profile fitting) give rise to different limb-darkening coefficients and 
+same reason plus the facts that different methods of fitting the model intensity profiles (including transit light curve versus intensity profile fitting) give rise to different limb-darkening coefficients and 
 the fact that we have an imperfect knowledge of the real intensity profiles of stars. We showed that fixing the limb-darkening coefficients is 
 the worst option if one aims to obtain precise \textit{and} accurate transit parameters, because the biases arise from three different sources, 
 with the last one (the fact that we do not have a perfect modelling of the stellar intensity profiles of real stars) having an unknown but possibly 
@@ -107,7 +107,7 @@ large impact.
 
 Given the above, unless the data quality is really poor (and one is willing to trade bias for variance), there is actually no good reason to fix the limb-darkening coefficients in the transit fitting process (assuming computational resources are not an issue). However, although fitting the 
 limb-darkening coefficients seems to be a good solution to the accuracy problem, there remains the issue of the low flexibility of the quadratic limb-darkening 
-law which can cause important biases on the retrieved transit parameters as shown in EJ15. These biases can be a large as $\sim 1\%$ for the planet-to-star 
+law which can cause important biases on the retrieved transit parameters as shown in EJ15. These biases can be as large as $\sim 1\%$ for the planet-to-star 
 radius ratio $R_p/R_*$, $\sim 2\%$ for the scaled semi-major axis, $a/R_*$, and $2\%$ for the inclination, where $R_p$ is the planetary radius, $R_*$ 
 the stellar radius and $a$ the semi-major axis. The importance for missions like {\em Kepler} and for future missions like the Transiting Exoplanet Survey 
 Satellite \cite[TESS,][]{ricker2014} is evident when looking at the most recent results from the {\em Kepler} mission: if we focus on the planet-to-star radius ratio measurements 
@@ -121,7 +121,7 @@ based on) have significant systematic errors.
 
 An obvious solution to the issues mentioned above if one decides to fit the limb-darkening coefficients is to try to use alternative laws to describe 
 the intensity profile of stars. Although the non-linear law proposed by \cite{claret2000} seems to be the most flexible, the fact that it has four free parameters 
-does not make it a very attractive. Several laws with fewer parameters have been proposed. Two-parameter laws are the exponential proposed by \cite{claret2003}, the logarithmic proposed by \cite{klinglesmith1970} and the square-root proposed 
+does not make it a very attractive one. Several laws with fewer parameters have been proposed. Two-parameter laws are the exponential proposed by \cite{claret2003}, the logarithmic proposed by \cite{klinglesmith1970} and the square-root proposed 
 by \cite{diazgimenez1992}. In addition, a very flexible three-parameter law was also proposed by \cite{sing2009}. These laws with fewer parameters are potentially 
 very attractive for transit fitting purposes, due to their flexibility at following different intensity profiles  and their low number of parameters \citep[see, e.g., ][for a comparison between the goodness of 
 fit to ATLAS model atmospheres of the mentioned two-parameter laws which outperform the linear and quadratic laws in terms of following the intensity 
@@ -131,7 +131,7 @@ Despite the attractive nature of the above mentioned limb-darkening laws, testin
 lightcurves was a problem until recently for two reasons. First, there was no publicly available code capable of efficiently generating fast and accurate transit lightcurves using all of these non-standard laws. However, recently \cite{batman2015} published an 
 algorithm that does exactly this called \texttt{batman}, enabling the generation of transit lightcurves very efficiently with any arbitrary limb-darkening law. 
 The second problem was that it was not clear how to sample limb-darkening coefficients in an informative (i.e., sampling all the physically possible parameter 
-space) and efficient way for all of these laws. Recently, \cite{kipping2015} presented an algorithm to sample parameters from the three-parameter law by imposing physically motivated constraints on the intensity profiles which derived in constrains on the limb-darkening coefficients being fitted. cite{kipping2013}, using the same principles, derived an algorithmic way of 
+space) and efficient way for all of these laws. Recently, \cite{kipping2015} presented an algorithm to sample parameters from the three-parameter law by imposing physically motivated constraints on the intensity profiles which derived in constrains on the limb-darkening coefficients being fitted. \cite{kipping2013}, using the same principles, derived an algorithmic way of 
 doing this for two-parameter laws. He found that his algorithm was not applicable to the exponential law and thus no constrains for this law could 
 be derived. We note that the form of the logarithmic law used in \cite{kipping2013} differs from the standard one proposed by 
 \cite{klinglesmith1970}. Thus, in order to  efficiently sample coefficients from the latter limb-darkening law one has to derive an efficient  informative sampling scheme for it.
@@ -330,7 +330,7 @@ The intensity profile then, touches $I(\mu)=0$ around
 As shown Figure~\ref{exponential_ldcs}, $e_1\sim 0.6$, while $e_2 \sim - 2\times 10^{-3}$, which gives $\mu_0 \sim 0.005$, 
 so the law starts giving negative values very close to (but not at) the limb, as we predicted. We note that typical transit observations are capable 
 of sampling these points with high cadence observations as the ones done by the {\em Kepler} mission and the ones that will 
-be done with the future TESS mission \citep{ricker2014}, which will have an almost certain chance of sampling points with $\mu\approx 1$. 
+be done with the future TESS mission \citep{ricker2014}, which will have an almost certain chance of sampling points with $\mu\lesssim \mu_0$. 
 Furthermore, as the generation of transit lightcurves for laws like the exponential requiere either numerical integration or the usage 
 of  approximations that usually sample more points close to the limb \citep[which is the case for e.g., the \texttt{batman} code,][]{batman2015}, this law is doomed to produce numerical errors in transit lightcurves due to this fact. Because of these reasons, we advise not to use this law.
 
@@ -349,7 +349,7 @@ Having dealt with the sampling of limb-darkening coefficients from the
 logarithmic and exponential laws, we now turn to the study of the 
 biases introduced on retrieved transit parameters in the transit fitting process introduced by using different limb-darkening laws. We perform a similar study as the one done in EJ15, but now 
 (1) using the \texttt{batman} transit code described in \cite{batman2015}, (2) using three different two-parameter 
-laws: the quadratic, logarithmic and square-root laws, and the three-parameter law and (3) smaller steps in 
+laws: the quadratic, logarithmic and square-root laws, and the three-parameter law and (3) smaller number of steps in 
 the planet-to-star radius ratio, $p=R_p/R_*$, in order to illustrate the evolution of the biases with this parameter 
 in a cleaner way: small ratios ($p=0.01$), medium ratios ($p=0.07$) and large ones ($p=0.13$). 
 
