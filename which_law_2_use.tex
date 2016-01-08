@@ -66,11 +66,17 @@ $^{2}$Millennium Institute of Astrophysics, Santiago, Chile\\
 \label{firstpage}
 
 \begin{abstract}
-The parametrization of the limb-darkening effect of a star has a direct impact 
-on the parameters retrieved from transit lightcurves such as the exoplanet's radius, scaled semi-major axis and inclination. Studies of the effect of limb darkening assumptions on the retrieved parameters have mostly focused on the widely used quadratic limb-darkening law, leaving out 
-other proposed laws that are in fact better descriptions of model intensity profiles. In this work, we show that 
-laws such as the logarithmic, square-root and three-parameter laws do a better job at retrieving the mentioned parameters from transit 
-lightcurves than the widely used quadratic law and therefore we recommend using those instead. We also provide code to guide the decision of when to use each of the laws,  which we note has a dependence on both stellar and transit parameters. Finally, we demonstrate that the so-called exponential law is non-physical as it typically produces negative intensities close to the limb and should therefore not be used.
+With the advent of very precise measurements of exoplanet transit lightcurves both from ground and space based observatories, it has been 
+shown that it is now possible to fit the limb-darkening coefficients in the transit-fitting procedure rather than fix them to theoretical values. In 
+addition, this strategy has been shown to give better results as fixing the coefficients to theoretical values can give rise to important yet unknown systematic 
+errors, which directly impact the physical properties of the system derived from such lightcurves such as the exoplanet's radius, scaled 
+semi-major axis and inclination. However, studies of the effect of limb darkening assumptions on the retrieved parameters 
+have mostly focused on the widely used quadratic limb-darkening law, leaving out other proposed laws that are in fact better descriptions 
+of model intensity profiles, which in principle could diminish the bias even further. In this work, we show that laws such as the logarithmic, 
+square-root and three-parameter do a better job in general at retrieving the mentioned parameters from transit lightcurves than the widely 
+used quadratic law and therefore we recommend using those instead. We also provide code to guide the decision of when to use each of 
+the laws,  which we note has a dependence on both stellar and transit parameters. Finally, we demonstrate that the so-called exponential 
+law is non-physical as it typically produces negative intensities close to the limb and should therefore not be used.
 \end{abstract}
 
 \begin{keywords}
@@ -97,8 +103,9 @@ All these studies and techniques rely on the retrieval of precise and accurate t
 
 In a recent study \citep[][hereon EJ15]{ej2015}, we showed that the accuracy is actually catching up with the precision 
 of these measurements due to our imperfect understanding of the limb-darkening effect. In particular, we showed that there are important 
-biases both when fixing and fitting for the limb-darkening coefficients in the light curve fitting process. The biases when fitting for the limb darkening coefficients arise from the fact 
-that the popular and widely used quadratic law is unable to model the complex intensity profile of real stars,  and the biases when fixing the coefficients arise for the
+biases both when fixing and fitting for the limb-darkening coefficients in the light curve fitting process. The biases when fitting for the 
+limb darkening coefficients arise from the fact that the popular and widely used quadratic law is unable to model the complex intensity profile 
+of real stars \citep[which has also been seen on other studies, see, e.g.,][]{knutson2007, kreidberg2015},  and the biases when fixing the coefficients arise for the
 same reason plus the facts that different methods of fitting the model intensity profiles (including transit light curve versus intensity profile fitting) give rise to different limb-darkening coefficients and 
 the fact that we have an imperfect knowledge of the real intensity profiles of stars. We showed that fixing the limb-darkening coefficients is 
 the worst option if one aims to obtain precise \textit{and} accurate transit parameters, because the biases arise from three different sources, 
@@ -375,7 +382,7 @@ To obtain the coefficients from those fitted numbers, we use the relations $l_1 
 which are derived in \S 2.1.
 \end{itemize}
 For the three-parameter law, we use the formalism and code described in \cite{kipping2015}.  The code used to generate our simulations is available
-in GitHub\footnote{\url{http://www.github.com/nespinoza/ld-simulations/}}, and can be used to perform analyses in a finer grid than the ones 
+in GitHub\footnote{\url{http://www.github.com/nespinoza/ld-exosim/}}, and can be used to perform analyses in a finer grid than the ones 
 published here. 
 
 \subsection{The case of central transits}
@@ -452,7 +459,7 @@ unphysical, and can lead to numerical errors if used on real data where sampling
 The question of when to use each of those laws is an important one. In particular, we have explored the relation between the real, underlying 
 transit parameters, the stellar host properties and the bias on the retrieved transit parameters. We have stated no specific rule regarding when to use each 
 law, but rather provided only guidelines based on our simulations. This is a choice made on purpose, as the selection of which law to use has to be done in a case-by-case basis, reason for which we provide a code with which one can obtain the results of the same simulations for specific 
-cases and with different resolutions\footnote{\url{http://www.github.com/nespinoza/ld-simulations/}}. It is important to note that in this work we have used the 
+cases and with different resolutions\footnote{\url{http://www.github.com/nespinoza/ld-exosim/}}. It is important to note that in this work we have used the 
 {\em Kepler} bandpass to study the relation between the biases on the retrieved transit parameters and the stellar host properties, but different bandpasses should give 
 rise to  different functional relations because they give rise to different model intensity profiles, which are used in those simulations to approximate the 
 expected intensity profile and the adequacy of each limb-darkening law at following it. Limb-darkening coefficients have to be calculated for each 
@@ -486,7 +493,10 @@ MNRAS, 450, 1879.
 MNRAS, 413, 1515.
 \bibitem[\protect\citeauthoryear{Klinglesmith \& Sobieski}{1970}]{klinglesmith1970} Klinglesmith, D. A. \&
 Sobieski, S., 1970, AJ, 75, 175.
-\bibitem[\protect\citeauthoryear{Koch et~al.}{2010}]{koch2010} Koch et~al. 2010, ApJ, 713, L79
+\bibitem[\protect\citeauthoryear{Knutson et al.}{2007}]{knutson2007} Knutson, H., Charbonneau, D., Noyes, R., et al., 2007, ApJ, 655, 564.
+
+\bibitem[\protect\citeauthoryear{Koch et~al.}{2010}]{koch2010} Koch et~al. 2010, ApJ, 713, L79.
+\bibitem[\protect\citeauthoryear{Kreidberg et al.}{2015}]{kreidberg2015} Kreidberg, L., Line, M., Bean, J., et al., 2015, ApJ, 814, 66.
 \bibitem[\protect\citeauthoryear{Kreidberg}{2015}]{batman2015} Kreidberg, L., 2015, arXiv:1507.08285.
 \bibitem[\protect\citeauthoryear{Mandel \& Agol}{2002}]{ma2002} Mandel, K \& Agol, E., 2002, ApJ,
 580, L171.
