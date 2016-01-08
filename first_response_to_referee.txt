@@ -1,0 +1,74 @@
+Bella Lock (Mrs) 
+Assistant Editor, Royal Astronomical Society 
+
+Dear Mrs. Bella,
+
+ I am resubmitting the manuscript MNRAS/MN-15-3639-MJ:
+
+ "Limb-darkening and exoplanets II: Choosing the Best 
+  Law for Minimum Bias Retrieval of Transit Parameters"
+
+ Authors: Nestor Espinoza & Andres Jordan
+
+ We thank the referee for his/her careful reading of the manuscript. 
+ You will find below our detailed response to the referee's comments 
+ as indented text after each of his/her comments.
+
+ Besides the changes made in response to the referee's comments we have:
+
+     - Corrected minor typos on the manuscript.
+
+########################################################################################
+>> My main suggestion is that the paper would benefit from a more quantitative 
+>> description of the trade-off between precision and accuracy. This work indicates 
+>> that fitting for two limb darkening coefficients with a judiciously chosen model 
+>> can significantly reduce bias. In practice, however, many light curves are not 
+>> sufficiently precise to tightly constrain more than one limb darkening parameter. 
+>> Adding an additional degree of freedom with a second limb darkening coefficient 
+>> may cause the uncertainty on other important parameters, particularly the transit 
+>> depth, to blow up. The resulting loss in accuracy may not be worth the improvement 
+>> in precision due to choosing a two-parameter model over fitting for  a linear limb 
+>> darkening coefficient.
+>>
+>> One way to address this question is to give guidelines about how precise a 
+>> light curve must be to merit adding a second limb darkening parameter to the 
+>> model. This could be discussed for a few select examples (e.g., a hot Jupiter 
+>> transiting a Sun-like star).  I leave it up to the authors whether/how to address 
+>> this point.
+
+RESPONSE
+
+>> It would also be helpful to investigate how much bias is introduced by using a linear 
+>> limb darkening law, since this model is commonly used in practice. Again, the authors 
+>> can address this at their discretion.
+
+RESPONSE
+
+>> I would recommend adding a few sentences to the abstract to give a little more context 
+>> for the paper. For example, something to the effect of: "Very precise measurements of 
+>> exoplanet transit light curves enable limb darkening parameters to be fitted empirically, 
+>> rather than fixed on theoretical model predictions that may have unknown systematic errors. 
+>> However, even fitting for the limb darkening coefficients can introduce bias in the measured 
+>> transit parameters depending on the chosen limb darkening model parameterization." I recommend 
+>> adding this because because fitting for the coefficients directly is still a relatively new 
+>> approach in this field, and it may not be obvious to everyone why you're not just using the 
+>> standard nonlinear law.
+
+RESPONSE
+
+>> There are several cases of very precise transit light curves where the limb darkening coefficients 
+>> predicted from theoretical models does not provide a good fit to the data (Knutson et al. 2007, ApJ, 
+>> 655, 564; Kreidberg et al. 2015, ApJ, 814, 66).  Please cite these in the introduction.
+
+RESPONSE
+
+>> State in the text what time sampling you use for your model light curves, and how sensitive your 
+>> results are to the choice of time sampling.
+
+RESPONSE
+
+>> There are a few uneccessary lines in the code run_ld_exosim.py that should be removed:
+>>      import pymc
+>>      sys.path.append('../utilities/')
+
+RESPONSE
