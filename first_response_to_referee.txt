@@ -61,15 +61,19 @@ in order to provide the suggested context to the paper.
 >> predicted from theoretical models does not provide a good fit to the data (Knutson et al. 2007, ApJ, 
 >> 655, 564; Kreidberg et al. 2015, ApJ, 814, 66).  Please cite these in the introduction.
 
-We have added the suggested cites to the discussion in the introduction.
+We have added the suggested citations to the discussion in the introduction.
 
 >> State in the text what time sampling you use for your model light curves, and how sensitive your 
 >> results are to the choice of time sampling.
 
-RESPONSE
+We have added the following at the end of the second paragraph in Section 3:
+
+"$1000$ in-transit points and $400$ out-of-transit points were simulated per lightcurve, with the initial 
+times perturbed by a small amount in order for the results to be independent of the exact points at which the lightcurve is sampled 
+(which anyways our simulations show has a negligible effect given the large amount of sampled points)."
 
 >> There are a few uneccessary lines in the code run_ld_exosim.py that should be removed:
 >>      import pymc
 >>      sys.path.append('../utilities/')
 
-We thank the referee for catching this typo in the code. The lines have been removed from the code.
+We thank the referee for catching this typo in the code. The lines have been removed from it.

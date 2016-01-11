@@ -67,8 +67,8 @@ $^{2}$Millennium Institute of Astrophysics, Santiago, Chile\\
 
 \begin{abstract}
 With the advent of very precise measurements of exoplanet transit lightcurves both from ground and space based observatories, it has been 
-shown that it is now possible to fit the limb-darkening coefficients in the transit-fitting procedure rather than fix them to theoretical values. In 
-addition, this strategy has been shown to give better results as fixing the coefficients to theoretical values can give rise to important yet unknown systematic 
+shown that it is now possible to fit the limb-darkening coefficients in the transit-fitting procedure rather than fix them to theoretical values. 
+This strategy has been shown to give better results as fixing the coefficients to theoretical values can give rise to important yet unknown systematic 
 errors, which directly impact the physical properties of the system derived from such lightcurves such as the exoplanet's radius, scaled 
 semi-major axis and inclination. However, studies of the effect of limb darkening assumptions on the retrieved parameters 
 have mostly focused on the widely used quadratic limb-darkening law, leaving out other proposed laws that are in fact better descriptions 
@@ -354,19 +354,22 @@ of  approximations that usually sample more points close to the limb \citep[whic
 
 Having dealt with the sampling of limb-darkening coefficients from the 
 logarithmic and exponential laws, we now turn to the study of the 
-biases introduced on retrieved transit parameters in the transit fitting process introduced by using different limb-darkening laws. We perform a similar study as the one done in EJ15, but now 
+biases introduced on retrieved transit parameters in the transit fitting process 
+introduced by using different limb-darkening laws. We perform a similar study as the one done in EJ15, but now 
 (1) using the \texttt{batman} transit code described in \cite{batman2015}, (2) using three different two-parameter 
 laws: the quadratic, logarithmic and square-root laws, and the three-parameter law and (3) smaller number of steps in 
 the planet-to-star radius ratio, $p=R_p/R_*$, in order to illustrate the evolution of the biases with this parameter 
 in a cleaner way: small ratios ($p=0.01$), medium ratios ($p=0.07$) and large ones ($p=0.13$). 
 
 As in EJ15, we simulate transit lightcurves for planets orbiting host stars with solar metallicity, 
-gravity and microturbulent velocity, and $T_{\rm eff}$ between 3500 K and 9000 K, with the mentioned planet-to-star radius ratios, 
-values of the scaled semi-major axis of 
-$a_R = a/R_* = \{3.27, 3.92, 4.87, 6.45, 9.52, 18.18, 200\}$ and different 
+gravity and microturbulent velocity, and $T_{\rm eff}$ between 3500 K and 9000 K, with the mentioned planet-to-star 
+radius ratios, values of the scaled semi-major axis of $a_R = a/R_* = \{3.27, 3.92, 4.87, 6.45, 9.52, 18.18, 200\}$ and different 
 impact parameters. The transits are simulated using a non-linear law in order to emulate ``real" intensity profiles, 
 with the coefficients generated using the ATLAS models and the same methods as the ones used in EJ15 with the 
-{\em Kepler} bandpass. The transits were then fitted using free limb-darkening coefficients.
+{\em Kepler} bandpass. $1000$ in-transit points and $400$ out-of-transit points were simulated per lightcurve, with the initial 
+times perturbed by a small amount in order for the results to be independent of the exact points at which the lightcurve is sampled 
+(which anyways our simulations show has a negligible effect given the large amount of sampled points). The transits were then fitted 
+using free limb-darkening coefficients.
 
 For the simulations, the applied strategies to sample physically plausible coefficients from two-parameter laws 
 are as follows, all of which use numbers $q_1 \in (0,1)$ and $q_2 \in (0,1)$:
