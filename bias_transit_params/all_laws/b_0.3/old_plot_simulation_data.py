@@ -20,10 +20,10 @@ def draw_text(g, x_coord, y_coord, text_input, text_size = 1):
     x0,y0 = g.pos(x_coord, y_coord)
     g.text(x0,y0,text_input,textattrs)
 
-b = 0.0
-ytext = 0.35
+b = 0.3
+ytext = 0.65
 p_scale = 0.1
-p_scale2 = 2.5
+p_scale2 = 3.
 p_show = [0.01,0.07,0.13]
 fit_option = 'float'
 
@@ -44,10 +44,6 @@ grid_num_quad, p_quad, a_quad, input_teff_quad, p_fixed_quad, sigma_p_fixed_quad
                 a_fixed_quad, sigma_a_fixed_quad, a_float_quad, sigma_a_float_quad,i_fixed_quad, sigma_i_fixed_quad, i_float_quad, sigma_i_float_quad \
                 = np.loadtxt('quadratic_results/final_results.dat',unpack=True)
 
-grid_num_lin, p_lin, a_lin, input_teff_lin, p_fixed_lin, sigma_p_fixed_lin, p_float_lin, sigma_p_float_lin, \
-                a_fixed_lin, sigma_a_fixed_lin, a_float_lin, sigma_a_float_lin,i_fixed_lin, sigma_i_fixed_lin, i_float_lin, sigma_i_float_lin \
-                = np.loadtxt('linear_results/final_results.dat',unpack=True)
-
 # Order the results from largest to smallest p (in order to have the smallest points on top of larger ones):
 variables = ['grid_num_', 'p_', 'a_', 'input_teff_', 'p_'+fit_option+'_', 'sigma_p_'+fit_option+'_', 
                                 'a_'+fit_option+'_', 'sigma_a_'+fit_option+'_', 'i_'+fit_option+'_', 'sigma_i_'+fit_option+'_']
@@ -56,9 +52,9 @@ variables = ['grid_num_', 'p_', 'a_', 'input_teff_', 'p_'+fit_option+'_', 'sigma
 # Now plot. First, some options:
 pheight = 3#5
 pwidth = 4#6.5
-delta_x = 5.0/1.2#9
+delta_x = 5.0#9
 delta_y = 1.0
-unit.set(xscale = 1.0)
+unit.set(xscale = 0.8)
 text.set(mode="latex")
 text.preamble(r"\usepackage{color}")
 text.preamble(r"\usepackage{wasysym}")
@@ -68,87 +64,91 @@ legend_pos = 'tl'
 xaxis = r'Host star $T_{\rm{eff}}$ (K)'
 min_x = 3200.0
 max_x = 9000.0
-min_y_p = 0.0#-10
-max_y_p = 1.0#1
-max_y_p_2 = 0.32
-min_y_p_2 = -0.32
-min_y_a = -0.5#-2
-max_y_a = 2.0#15
-min_y_a_2 = -0.32
-max_y_a_2 = 0.32
-#min_y_i = -7.5
-#max_y_i = 1.0
-#min_y_i_2 = -2.3
-#max_y_i_2 = 1.3
+min_y_p = -0.5#-10
+max_y_p = 1#1
+min_y_a = -3.3#-2
+max_y_a = 2.3#15
+min_y_i = -2.3
+max_y_i = 1.3
 yaxis_p = r'$(\hat{p} - p)/p\ (\%)$'
 yaxis_a = r'$(\hat{a}_R - a_R)/a_R\ (\%)$'
-#yaxis_i = r'$(\hat{i} - i)/i\ (\%)$'
+yaxis_i = r'$(\hat{i} - i)/i\ (\%)$'
 outname = 'simulation_b_'+str(b).split('.')[0]+str(b).split('.')[1]+'_'+fit_option
 
 # And now the real plotting. First, define the plots for the biases on each parameter:
 c = canvas.canvas()
 
-# Plot for bias on different parameters for the linear law:
-g_a_lin = c.insert(graph.graphxy(height=pheight,width=pwidth, \
+# Plot for bias on different parameters for the quadratic law:
+g_i_quad = c.insert(graph.graphxy(height=pheight,width=pwidth, \
        key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
        x = graph.axis.linear(min=min_x,max=max_x,title = xaxis, texter=graph.axis.texter.decimal()),\
+       y = graph.axis.linear(min=min_y_i,max=max_y_i,title = yaxis_i)))
+
+g_a_quad = c.insert(graph.graphxy(height=pheight,width=pwidth, ypos = g_i_quad.ypos+g_i_quad.height+delta_y,\
+       key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
+       x = graph.axis.linkedaxis(g_i_quad.axes["x"]),\
        y = graph.axis.linear(min=min_y_a,max=max_y_a,title = yaxis_a)))
 
-g_p_lin = c.insert(graph.graphxy(height=pheight,width=pwidth, ypos = g_a_lin.ypos+g_a_lin.height+delta_y,\
-       key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
-       x = graph.axis.linkedaxis(g_a_lin.axes["x"]),\
-       y = graph.axis.linear(min=min_y_p,max=max_y_p,title = yaxis_p)))
-
-# Plot for bias on different parameters for the quadratic law:
-g_a_quad = c.insert(graph.graphxy(height=pheight,width=pwidth, xpos = g_a_lin.xpos + 1.2*delta_x+0.5, \
-       key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
-       x = graph.axis.linear(min=min_x,max=max_x,title = xaxis, texter=graph.axis.texter.decimal()),\
-       y = graph.axis.linear(min=min_y_a_2,max=max_y_a_2,title=None)))
-
-g_p_quad = c.insert(graph.graphxy(height=pheight,width=pwidth, xpos = g_a_lin.xpos + 1.2*delta_x+0.5, \
-                                                               ypos = g_a_quad.ypos+g_a_quad.height+delta_y,\
-       key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
-       x = graph.axis.linkedaxis(g_a_quad.axes["x"]),\
-       y = graph.axis.linear(min=min_y_p_2,max=max_y_p_2,title = None)))
+g_p_quad = c.insert(graph.graphxy(height=pheight,width=pwidth, ypos = g_a_quad.ypos+g_a_quad.height+delta_y,\
+                       key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
+                       x = graph.axis.linkedaxis(g_i_quad.axes["x"]),\
+                       y = graph.axis.linear(min=min_y_p,max=max_y_p,title = yaxis_p)))
 
 # Same for logarithmic law:
-g_a_log = c.insert(graph.graphxy(height=pheight,width=pwidth, xpos = g_a_quad.xpos + delta_x, \
+g_i_log = c.insert(graph.graphxy(height=pheight,width=pwidth, xpos = g_i_quad.xpos + delta_x, \
        key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
        x = graph.axis.linear(min=min_x,max=max_x,title = xaxis, texter=graph.axis.texter.decimal()),\
+       y = graph.axis.linkedaxis(g_i_quad.axes["y"])))
+
+g_a_log = c.insert(graph.graphxy(height=pheight,width=pwidth, xpos = g_i_quad.xpos + delta_x, \
+                                                                           ypos = g_i_log.ypos+g_i_log.height+delta_y,\
+       key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
+       x = graph.axis.linkedaxis(g_i_log.axes["x"]),\
        y = graph.axis.linkedaxis(g_a_quad.axes["y"])))
 
-g_p_log = c.insert(graph.graphxy(height=pheight,width=pwidth, xpos = g_a_quad.xpos + delta_x, \
+g_p_log = c.insert(graph.graphxy(height=pheight,width=pwidth, xpos = g_i_quad.xpos + delta_x,\
                                                                            ypos = g_a_log.ypos+g_a_log.height+delta_y,\
-       key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
-       x = graph.axis.linkedaxis(g_a_log.axes["x"]),\
-       y = graph.axis.linkedaxis(g_p_quad.axes["y"])))
+                       key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
+                       x = graph.axis.linkedaxis(g_i_log.axes["x"]),\
+                       y = graph.axis.linkedaxis(g_p_quad.axes["y"])))
 
 # And for square-root law:
-g_a_sqrt = c.insert(graph.graphxy(height=pheight,width=pwidth, xpos = g_a_log.xpos + delta_x, \
+g_i_sqrt = c.insert(graph.graphxy(height=pheight,width=pwidth, xpos = g_i_log.xpos + delta_x, \
        key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
        x = graph.axis.linear(min=min_x,max=max_x,title = xaxis, texter=graph.axis.texter.decimal()),\
+       y = graph.axis.linkedaxis(g_i_quad.axes["y"])))
+
+g_a_sqrt = c.insert(graph.graphxy(height=pheight,width=pwidth, xpos = g_i_log.xpos + delta_x, \
+                                                                            ypos = g_i_sqrt.ypos+g_i_sqrt.height+delta_y,\
+       key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
+       x = graph.axis.linkedaxis(g_i_sqrt.axes["x"]),\
        y = graph.axis.linkedaxis(g_a_quad.axes["y"])))
 
-g_p_sqrt = c.insert(graph.graphxy(height=pheight,width=pwidth, xpos = g_a_log.xpos + delta_x, \
+g_p_sqrt = c.insert(graph.graphxy(height=pheight,width=pwidth, xpos = g_i_log.xpos + delta_x,\
                                                                             ypos = g_a_sqrt.ypos+g_a_sqrt.height+delta_y,\
-       key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
-       x = graph.axis.linkedaxis(g_a_sqrt.axes["x"]),\
-       y = graph.axis.linkedaxis(g_p_quad.axes["y"])))
+                       key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
+                       x = graph.axis.linkedaxis(g_i_sqrt.axes["x"]),\
+                       y = graph.axis.linkedaxis(g_p_quad.axes["y"])))
 
 # And three-parameter law:
-g_a_tpl = c.insert(graph.graphxy(height=pheight,width=pwidth, xpos = g_a_sqrt.xpos + delta_x, \
+g_i_tpl = c.insert(graph.graphxy(height=pheight,width=pwidth, xpos = g_i_sqrt.xpos + delta_x, \
        key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
        x = graph.axis.linear(min=min_x,max=max_x,title = xaxis, texter=graph.axis.texter.decimal()),\
+       y = graph.axis.linkedaxis(g_i_quad.axes["y"])))
+
+g_a_tpl = c.insert(graph.graphxy(height=pheight,width=pwidth, xpos = g_i_sqrt.xpos + delta_x, \
+                                                              ypos = g_i_tpl.ypos+g_i_tpl.height+delta_y,\
+       key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
+       x = graph.axis.linkedaxis(g_i_tpl.axes["x"]),\
        y = graph.axis.linkedaxis(g_a_quad.axes["y"])))
 
-g_p_tpl = c.insert(graph.graphxy(height=pheight,width=pwidth, xpos = g_a_sqrt.xpos + delta_x, \
+g_p_tpl = c.insert(graph.graphxy(height=pheight,width=pwidth, xpos = g_i_sqrt.xpos + delta_x,\
                                                               ypos = g_a_tpl.ypos+g_a_tpl.height+delta_y,\
-       key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
-       x = graph.axis.linkedaxis(g_a_tpl.axes["x"]),\
-       y = graph.axis.linkedaxis(g_p_quad.axes["y"])))
+                       key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
+                       x = graph.axis.linkedaxis(g_i_tpl.axes["x"]),\
+                       y = graph.axis.linkedaxis(g_p_quad.axes["y"])))
 
 ###################### COLORBAR EMULATION ##################################################
-"""
 # Define plot that will emulate the colorbar. First, define a fake x-axis:
 mymanualticks = [graph.axis.tick.tick(-2,label=""),graph.axis.tick.tick(-1,label="")]
 
@@ -161,7 +161,7 @@ for i in range(len(value_range)):
         mymanualticks_y.append(graph.axis.tick.tick(value_range[i],label=str(tick_range[i])))
         mymanualticks_y2.append(graph.axis.tick.tick(value_range[i],label=""))
 
-cbar = c.insert(graph.graphxy(height=pheight*1.5,width=pwidth/4., xpos = g_i_tpl.xpos + 1.35*delta_x, \
+cbar = c.insert(graph.graphxy(height=pheight*1.5,width=pwidth/4., xpos = g_i_tpl.xpos + delta_x, \
                                                                   ypos = g_i_tpl.ypos+g_i_tpl.height+2.*delta_y,\
        key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
        x = graph.axis.linear(min=-2,max=-1,title = None,manualticks=mymanualticks),\
@@ -178,12 +178,11 @@ for i in range(len(value_range)):
    draw_rectangular_band(cbar, -2., value_range[i] - 0.5, 1., 1.0, the_color)
 
 # Plot borders of cb
-cbar = c.insert(graph.graphxy(height=pheight*1.5,width=pwidth/4., xpos = g_i_tpl.xpos + 1.35*delta_x, \
+cbar = c.insert(graph.graphxy(height=pheight*1.5,width=pwidth/4., xpos = g_i_tpl.xpos + delta_x, \
                                                                   ypos = g_i_tpl.ypos+g_i_tpl.height+2.*delta_y,\
        key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
        x = graph.axis.linear(min=-2,max=-1,title = None,manualticks=mymanualticks),\
        y2 = graph.axis.linear(min=np.min(value_range)-0.5,max=np.max(value_range)+0.5,manualticks = mymanualticks_y2,title = None,parter=None)))
-"""
 ###########################################################################################
 
 ################# SYMBOL LEGEND EMULATION #################################################
@@ -200,8 +199,8 @@ for i in range(len(value_range)):
         mymanualticks_y.append(graph.axis.tick.tick(value_range[i],label=str(tick_range[i])))
         mymanualticks_y2.append(graph.axis.tick.tick(value_range[i],label=""))
 
-sbar = c.insert(graph.graphxy(height=pheight,width=pwidth/4., xpos = g_a_tpl.xpos + 1.35*delta_x, \
-                                                              ypos = g_a_tpl.ypos+g_a_tpl.height-2*delta_y,\
+sbar = c.insert(graph.graphxy(height=pheight,width=pwidth/4., xpos = g_i_tpl.xpos + delta_x, \
+                                                              ypos = g_i_tpl.ypos+g_i_tpl.height-2*delta_y,\
        key=graph.key.key(pos=legend_pos,textattrs=[text.size(legend_text_size)]),\
        x = graph.axis.linear(min=-2,max=-1,title = None,manualticks=mymanualticks),\
        y2 = graph.axis.linear(min=np.min(value_range)-0.5,max=np.max(value_range)+0.5,manualticks = mymanualticks_y,title = '$p$',parter=None)))
@@ -219,11 +218,10 @@ for i in range(len(value_range)):
 
 if fit_option == "float":
     draw_text(sbar, -1.5, np.max(value_range)+1, '$b='+str(b)+'$',text_size=0)
-    draw_text(g_p_lin, min_x + (max_x-min_x)/2., max_y_p + ((np.abs(max_y_p-min_y_p))/(np.abs(max_y_p_2-min_y_p_2)))*.2, 'Linear law',text_size=0)
-    draw_text(g_p_quad, min_x + (max_x-min_x)/2., max_y_p_2 + .2, 'Quadratic law',text_size=0)
-    draw_text(g_p_log, min_x + (max_x-min_x)/2., max_y_p_2 + .2, 'Logarithmic law',text_size=0)
-    draw_text(g_p_sqrt, min_x + (max_x-min_x)/2., max_y_p_2 + .2, 'Square-root law',text_size=0)
-    draw_text(g_p_tpl, min_x + (max_x-min_x)/2., max_y_p_2 + .2, 'Three-parameter law',text_size=0)
+    draw_text(g_p_quad, min_x + (max_x-min_x)/2., max_y_p + .3, 'Quadratic law (free LDs fit)',text_size=0)
+    draw_text(g_p_log, min_x + (max_x-min_x)/2., max_y_p + .3, 'Logarithmic law (free LDs fit)',text_size=0)
+    draw_text(g_p_sqrt, min_x + (max_x-min_x)/2., max_y_p + .3, 'Square-root law (free LDs fit)',text_size=0)
+    draw_text(g_p_tpl, min_x + (max_x-min_x)/2., max_y_p + .3, 'Three-parameter law (free LDs fit)',text_size=0)
 else:
     draw_text(sbar, -1.5, np.max(value_range)+1, '$b='+str(b)+'$',text_size=0)
     draw_text(g_p_quad, min_x + (max_x-min_x)/2., max_y_p + .3, 'Quadratic law (fixed LDs fit)', text_size=0)
@@ -233,7 +231,7 @@ else:
 
 # Now plot each point at a time, where p defines the size and the color defines the inclination.
 # Do this for each LD law differently:
-for method in ['lin','log','sqrt','quad','tpl']:
+for method in ['log','sqrt','quad','tpl']:
         print '\t ################################'
         print '\t RESULTS FOR '+method+' LD law'
         print '\t ################################'
@@ -249,7 +247,7 @@ for method in ['lin','log','sqrt','quad','tpl']:
         # Estimate biases on p, a and i: 
         exec 'p_bias = (p - p_'+fit_option+'_'+method+')/(p)'
         exec 'a_bias = (a - a_'+fit_option+'_'+method+')/(a)'
-        #exec 'i_bias = (inclinations - i_'+fit_option+'_'+method+')/(inclinations)'
+        exec 'i_bias = (inclinations - i_'+fit_option+'_'+method+')/(inclinations)'
         # Estimate maximum and minimum bias on p:
         idx_max_p = np.where(p_bias == np.max(p_bias))[0]
         idx_min_p = np.where(p_bias == np.min(p_bias))[0]
@@ -268,13 +266,13 @@ for method in ['lin','log','sqrt','quad','tpl']:
         print '\t >> Maximum negative bias: ',np.max(a_bias[idx_min_a])*100,'%'
         print '\t >> At Teff = ',teff[idx_min_a],'(grid number '+str(idx_min_a)+')\n'
         # And for i:
-        #idx_max_i = np.where(i_bias == np.max(i_bias))[0]
-        #idx_min_i = np.where(i_bias == np.min(i_bias))[0]
-        #print '\t Biases on i:'
-        #print '\t >> Maximum positive bias: ',np.max(i_bias[idx_max_i])*100,'%'
-        #print '\t >> At Teff = ',teff[idx_max_i],'(grid number '+str(idx_max_i)+')'
-        #print '\t >> Maximum negative bias: ',np.max(i_bias[idx_min_i])*100,'%'
-        #print '\t >> At Teff = ',teff[idx_min_i],'(grid number '+str(idx_min_i)+')\n'
+        idx_max_i = np.where(i_bias == np.max(i_bias))[0]
+        idx_min_i = np.where(i_bias == np.min(i_bias))[0]
+        print '\t Biases on i:'
+        print '\t >> Maximum positive bias: ',np.max(i_bias[idx_max_i])*100,'%'
+        print '\t >> At Teff = ',teff[idx_max_i],'(grid number '+str(idx_max_i)+')'
+        print '\t >> Maximum negative bias: ',np.max(i_bias[idx_min_i])*100,'%'
+        print '\t >> At Teff = ',teff[idx_min_i],'(grid number '+str(idx_min_i)+')\n'
 
         # Now, for plotting, calculate minimum and maximum values of a:
         exec 'min_val = np.max(1./(a_'+method+'))'
@@ -284,7 +282,7 @@ for method in ['lin','log','sqrt','quad','tpl']:
 
         exec 'g_p = g_p_'+method
         exec 'g_a = g_a_'+method
-        #exec 'g_i = g_i_'+method
+        exec 'g_i = g_i_'+method
         for c_p in p_show[::-1]:
          all_c_p_idx = np.where(c_p == p)[0]
          for i in all_c_p_idx[np.argsort(a[all_c_p_idx])]:
@@ -293,7 +291,7 @@ for method in ['lin','log','sqrt','quad','tpl']:
             # Define the color of the point. For reference: Red (0,1,1,0) to Cyan (1,0,0,0)
             #print 'teff:',teff[i],'a_R:',a[i]
             #print '(',1.-(m*np.log10(a[i])+n),',',m*np.log10(a[i])+n,',',m*np.log10(a[i])+n,',0)'
-            the_color = color.cmyk.Grey#color.cmyk(1.-(m*(1./(a[i]))+n),m*(1./(a[i]))+n,m*(1./(a[i]))+n,0)
+            the_color = color.cmyk(1.-(m*(1./(a[i]))+n),m*(1./(a[i]))+n,m*(1./(a[i]))+n,0)
             # Define the size of the point:
             the_size = p_scale/np.log10(p_scale2*p[i])
 
@@ -304,8 +302,8 @@ for method in ['lin','log','sqrt','quad','tpl']:
             g_a.plot(graph.data.values(x=[teff[i]], y=[-100*(a_bias[i])], title = None),\
             styles = [graph.style.symbol(graph.style.symbol.circle, symbolattrs = [deco.filled([the_color]), deco.stroked([color.cmyk.Black,style.linewidth.THIN])],size = the_size)])
 
-            #g_i.plot(graph.data.values(x=[teff[i]], y=[-100*(i_bias[i])], title = None),\
-            #styles = [graph.style.symbol(graph.style.symbol.circle, symbolattrs = [deco.filled([the_color]), deco.stroked([color.cmyk.Black,style.linewidth.THIN])],size = the_size)])
+            g_i.plot(graph.data.values(x=[teff[i]], y=[-100*(i_bias[i])], title = None),\
+            styles = [graph.style.symbol(graph.style.symbol.circle, symbolattrs = [deco.filled([the_color]), deco.stroked([color.cmyk.Black,style.linewidth.THIN])],size = the_size)])
 
         # Finally, plot the lines that mark zero bias:
 
@@ -319,11 +317,11 @@ for method in ['lin','log','sqrt','quad','tpl']:
                                       style.linestyle.dashed,\
                                       style.linewidth.thin])])
 
-        #g_i.plot(graph.data.values(x=[np.min(teff),np.max(teff)], y=[0,0], title = None),\
-        #                              styles = [graph.style.line([color.cmyk.Black,\
-        #                              style.linestyle.dashed,\
-        #                              style.linewidth.thin])])
+        g_i.plot(graph.data.values(x=[np.min(teff),np.max(teff)], y=[0,0], title = None),\
+                                      styles = [graph.style.line([color.cmyk.Black,\
+                                      style.linestyle.dashed,\
+                                      style.linewidth.thin])])
 
 
-c.writeEPSfile(outname,write_mesh_as_bitmap = True,write_mesh_as_bitmap_resolution=2)
-c.writePDFfile(outname,write_mesh_as_bitmap = True,write_mesh_as_bitmap_resolution=2)
+c.writeEPSfile(outname)
+c.writePDFfile(outname)

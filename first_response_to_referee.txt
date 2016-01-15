@@ -18,6 +18,21 @@ Dear Mrs. Bella,
 
      - Corrected minor typos on the manuscript.
 
+     - Changed the title of the manuscript to reflect the additional study 
+       proposed by the referee on the precision of the retrieved transit 
+       parameters, which implies we now not only help to decide the law 
+       that provide minimum bias, but also the one that provides the 
+       best precision. This in turn means that we help to decide the 
+       optimal law, which is a statistical jargon for "lowest bias, 
+       lowest variance" model.
+
+     - Added extra text on the Abstract, Introduction and Section 3 to reflect 
+       these changes in the study. This includes a change of the name of Section 3, 
+       and an additional sub-section explaining the procedures used to study the 
+       bias/variance trade-off.
+
+     - Modified the Acknowledgments.
+
 ########################################################################################
 >> My main suggestion is that the paper would benefit from a more quantitative 
 >> description of the trade-off between precision and accuracy. This work indicates 
@@ -36,13 +51,20 @@ Dear Mrs. Bella,
 >> transiting a Sun-like star).  I leave it up to the authors whether/how to address 
 >> this point.
 
-RESPONSE
+We thank the referee for this very insightful suggestion. We have made a whole suit of 
+simulations which exactly answers this question, and provide code so future researchers 
+can decide which is the best law both in terms of bias and precision for their specific 
+application; in this way, researchers can decide the optimal limb-darkening law for the 
+lightcurve at hand. These simulations are shown and discussed both on Section 3.4 and 
+Section 4.
 
 >> It would also be helpful to investigate how much bias is introduced by using a linear 
 >> limb darkening law, since this model is commonly used in practice. Again, the authors 
 >> can address this at their discretion.
 
-RESPONSE
+We thank the referee for making this suggestion. We have added simulations that provide 
+the results for the linear law. As expected, the bias is larger than for any of the other 
+laws, and this is now discussed both in the abstract and in Sections 3 and 4.
 
 >> I would recommend adding a few sentences to the abstract to give a little more context 
 >> for the paper. For example, something to the effect of: "Very precise measurements of 
@@ -68,9 +90,11 @@ We have added the suggested citations to the discussion in the introduction.
 
 We have added the following at the end of the second paragraph in Section 3:
 
-"$1000$ in-transit points and $400$ out-of-transit points were simulated per lightcurve, with the initial 
-times perturbed by a small amount in order for the results to be independent of the exact points at which the lightcurve is sampled 
-(which anyways our simulations show has a negligible effect given the large amount of sampled points)."
+"$1000$ in-transit points and $400$ out-of-transit points were simulated per 
+lightcurve, with the initial times perturbed by a small amount in order for 
+the results to be independent of the exact points at which the lightcurve is sampled 
+(which anyways our simulations show has a negligible effect given the large amount of 
+sampled points)."
 
 >> There are a few uneccessary lines in the code run_ld_exosim.py that should be removed:
 >>      import pymc
