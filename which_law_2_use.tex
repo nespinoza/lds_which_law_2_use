@@ -473,6 +473,14 @@ in this case, can mimic variations that were actually attributable to $p$, addin
 parameters ($a_R$ and $i$) the three parameter law seems to be the best choice in terms of accuracy.
 
 \subsection{The bias-variance trade-off}
+\begin{figure}
+\includegraphics[scale=0.73]{which_law_to_use/bias_variance_plot.eps}
+\caption{Sketch of each of the terms that define the bias and the precision of a given estimator. The probability density of the estimator $\hat{theta}$ of 
+the parameter $\theta$ is depicted in red, while the real, underlying value of the parameter $\theta$ is depicted with a black solid line. Ideally, one would 
+want a low bias, high precision estimator.}
+\label{bias-variance-plot}
+\end{figure}
+
 From the results on the past sub-section, one can see that for a given set of stellar and transit parameters, a law can be chosen in order to minimise the 
 biases in the retrieved transit parameters from the transit light curve. However, an interesting question is whether the precision of a given lightcurve can 
 actually provide one with enough precision in order to use a more complex parametrization of the limb-darkening effect and, depending on the answer, what is 
@@ -480,11 +488,12 @@ the cost. Fitting a complex law to a noisy light curve will definitely lower the
 model (i.e., the large parameter space that it can explore), while fitting a law that is too simple for a very precise lightcurve will most definitely lead to larger 
 biases, due to the strictness of the chosen model. This problem is known as the bias-variance trade-off, i.e., the problem of choosing the right amount of bias 
 and variance for a given dataset. Probabilistically, for a given estimator $\hat{\theta}$ of the parameter $\theta$, we will be interested in its variance (whose 
-square-root defines the precision), $\textnormal{Var}[\hat{\theta}]$, while the bias of the estimator is defined as $\mathbb{E}[\hat{\theta}]-\theta$, where 
-$\mathbb{E}[\cdot]$ defines the expectation value. In this subsection, we will 
-be interested in the ratio of the \textit{absolute value} of the bias over the precision, which we define as
+square-root defines the precision), $\textnormal{Var}[\hat{\theta}]$, and its bias, defined as $\mathbb{E}[\hat{\theta}]-\theta$, where 
+$\mathbb{E}[\cdot]$ defines the expectation value and $\textnormal{Var}[\cdot]$ is the variance operator. Intuitively, one would want a low-bias and 
+high-precision (i.e., low variance) estimator for a given parameter; Figure \ref{bias-variance-plot} sketches each of those terms graphically. In this subsection, 
+we will be interested in the ratio of the \textit{absolute value} of the bias over the precision, which we define as
 \begin{eqnarray*}
-\textnormal{Bias/Precision} = \frac{|\mathbb{E}[\hat{\theta}]-\theta|}{\sqrt{\textnormal{Var}[\hat{\theta}]}}
+\textnormal{Bias/Precision} = \frac{|\mathbb{E}[\hat{\theta}]-\theta|}{\sqrt{\textnormal{Var}[\hat{\theta}]}}.
 \end{eqnarray*}
 
 \begin{figure*}
@@ -496,29 +505,29 @@ shown as a function of the lightcurve noise level. The line of equal bias and pr
 \end{figure*}
 
 Given that the study of this ratio is complex from a mathematical point of view in this case, we study it through simulations similar to the ones done in the past sub-section, 
-but this time also adding different amounts of noise to the lightcurves. As a case study, we take that of a typical Hot-Jupiter ($p=0.1$, $a_R = 10$) around a Solar-type 
-star ($T_\textnormal{eff}= 5500$ K) on a low impact-parameter orbit ($b=0.3$), and we focus specifically on the retrieval of the planet-to-star radius ratio, which is 
-one of the most interesting parameters retrieved from transit lightcurves. We simulate a suite of lightcurves with noise levels ranging from $10$ ppm to 
-$3000$ ppm with different amount of in-transit points; here, however, we show our results for $N=100$ in-transit points for clarity, which is a worst-case scenario for 
-typical \textit{Kepler} lightcurves, and is a typical case for transit lightcurves obtained from ground-based observatories. For each case, $300$ lightcurves are generated, 
+but this time also adding different amounts of noise to the lightcurves. In this sense, we take a Monte Carlo approach in order to study this ratio. As a case study, we take that 
+of a typical Hot-Jupiter ($p=0.1$, $a_R = 10$) around a Solar-type star ($T_\textnormal{eff}= 5500$ K) on a low impact-parameter orbit ($b=0.3$), and we focus specifically 
+on the retrieval of the planet-to-star radius ratio, which is one of the most interesting parameters retrieved from transit lightcurves. We simulate a suite of lightcurves with noise 
+levels ranging from $10$ ppm to $3000$ ppm with different amount of in-transit points; here, however, we show our results for $N=100$ and $N=1000$ in-transit points for clarity, 
+which span a range of possible scenarios for both space based (e.g., \textit{Kepler}) and ground-based observations. For each case, $300$ lightcurves are generated, 
 and all of them are fitted in the same way as it was done for their noiseless counterparts in the past sub-section. From the fit to each of the $300$ lightcurves on each case, 
-the precision of the planet-to-star radius ratio is estimated by calculating the square-root of the variance of all the retrieved planet-to-star radius ratio of each of the $300$ lightcurves. 
-The results of our simulations are shown on Figure \ref{biasvariance}, where we plot the ratio of the absolute value of the bias (estimated in the previous sub-section) over the precision 
+we take all the estimated planet-to-star radius ratios and estimate the precision by calculating the square-root of the variance of the sample. The results of our simulations are shown 
+on Figure \ref{biasvariance}, where we plot the ratio of the absolute value of the bias (estimated in the previous sub-section) over the precision 
 (the square-root of the variance of the estimator) as a function of the noise in the simulated lightcurves. 
 
-In our results, the line of equal bias and precision marks the limit at which one should switch to a more complex law. For example, in our simulation, the linear law touches this line at 
-$\sim 500$ ppm, which means that for more precise lightcurves the bias on the planet-to-star radius ratio is larger than the precision (e.g., for a lightcurve with a precision of $\sim 200$ 
+In our results, the line of equal bias and precision marks the limit at which one should switch to a more complex law. For example, in our simulation, for $N=100$ in-transit points, the 
+linear law touches this line at $\sim 500$ ppm, which means that for more precise lightcurves the bias on the planet-to-star radius ratio is larger than the precision (e.g., for a lightcurve with a precision of $\sim 200$ 
 ppm, the bias is $\sim 2$ times larger than the precision on the parameter) and, therefore, one should switch to a more complex law. To which law should one switch? From Figure \ref{biasvariance}, 
-it can be seen that between $\sim 50-500$ ppm, the best law in terms of bias/variance trade-off is the square-root law which, among all the laws that are below the equal bias and precision line, 
-provides the best precision. For lightcurve precisions better than $\sim 50$ ppm, it can be seen that the square-root law crosses this line and therefore another law must be used, which can be 
-selected in the same way as before (in this case, between $\sim 30-50$ ppm, the optimal decision would be to use the logarithmic law). For this specific case, it can be seen that the 
-three-parameter law is only optimal for precision better than $\sim 20$ ppm. Of course, if one increases the number of in-transit points, the precisions at which each law crosses the equal bias 
-and precision line are lower. For example, we find that for $N=500$, the linear law touches this line at $\sim 800$ ppm, while for $N=1000$, 
-the linear law touches this line at $\sim 1000$ ppm.
+it can be seen that between $\sim 50-500$ ppm, the best law in terms of bias/variance trade-off for this number of in-transit points is the square-root law which, among all the laws that are below 
+the equal bias and precision line, provides the best precision. For lightcurve precisions better than $\sim 50$ ppm, it can be seen that the square-root law crosses this line and therefore another law 
+must be used, which can be selected in the same way as before (in this case, between $\sim 30-50$ ppm, the optimal decision would be to use the logarithmic law). For this specific case, it can be seen that the 
+three-parameter law is only optimal for precision better than $\sim 20$ ppm. Of course, as can be seen from the plot, if one increases the number of in-transit points, the precisions at which each law crosses the 
+equal bias and precision line are lower. For example, for $N=1000$, it can be seen that the linear law touches this line at $\sim 1500$ ppm, meaning that in this case even with a very noisy lightcurve one has to 
+switch to a better limb-darkening law if one wants to keep the bias below the precision level.
 
 From our case study, it can be seen that the selection of the optimal limb-darkening law (i.e., the one that provides the best precision among the ones that avoid biases larger than it) can be 
 estimated by simple simulation. We provide code at Github with which this can be easily done for a given set of transit and stellar parameters, along with a given lightcurve noise level and number of 
-in-transit points.
+in-transit points. 
 
 \section{Discussion \& Conclusions}
 

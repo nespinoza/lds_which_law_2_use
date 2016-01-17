@@ -106,6 +106,18 @@ g.plot(graph.data.values(x=[1.,1e4],y=[1.,1.], title = None),\
                              styles = [graph.style.line([color.cmyk.Grey,\
                                        style.linestyle.dashed,\
                                        style.linewidth.thin])])
+
+# Plot fake lines to put labels:
+g.plot(graph.data.values(x=[5000,10000],y=[1,1], title = '100 in-transit points'),\
+                styles = [graph.style.line([color.cmyk.Black,\
+                style.linestyle.solid,\
+                style.linewidth.THick])])
+
+g.plot(graph.data.values(x=[5000,10000],y=[1,1], title = '1000 in-transit points'),\
+                styles = [graph.style.line([color.cmyk.Black,\
+                style.linestyle.dashed,\
+                style.linewidth.thick])])
+
 for i in range(len(ld_laws)):
     ld_law = ld_laws[i]
     g.plot(graph.data.values(x=precisions,y=np.abs(data[ld_law]['100']['bias_p']/data[ld_law]['100']['precision_p']), title = None),\
@@ -120,10 +132,10 @@ for i in range(len(ld_laws)):
     #                                   style.linestyle.dashed,\
     #                                   style.linewidth.thick])])
 
-    #g.plot(graph.data.values(x=precisions,y=np.abs(data[ld_law]['1000']['bias_p']/data[ld_law]['1000']['precision_p']), title = None),\
-    #                         styles = [graph.style.line([colors[i],\
-    #                                   style.linestyle.dashed,\
-    #                                   style.linewidth.thick])])
+    g.plot(graph.data.values(x=precisions,y=np.abs(data[ld_law]['1000']['bias_p']/data[ld_law]['1000']['precision_p']), title = None),\
+                             styles = [graph.style.line([colors[i],\
+                                       style.linestyle.dashed,\
+                                       style.linewidth.thick])])
 
 #text_pyx(g, , 2000., names[i])
 c.writeEPSfile(outname,write_mesh_as_bitmap = True,write_mesh_as_bitmap_resolution=5)
