@@ -73,9 +73,10 @@ errors, which directly impact the physical properties of the system derived from
 semi-major axis and inclination. However, studies of the effect of limb darkening assumptions on the retrieved parameters 
 have mostly focused on the widely used quadratic limb-darkening law, leaving out other proposed laws that are either simpler (e.g., the linear law) or 
 in fact better descriptions of model intensity profiles, which in principle could diminish the bias even further. In this work, we show that laws such as the 
-logarithmic, square-root and three-parameter do a better job in general at retrieving the mentioned parameters from transit lightcurves both in terms of 
-bias and precision than the widely used quadratic and linear laws and therefore we recommend using those instead. We also provide code to guide the 
-decision of when to use each of these laws,  which we note has a dependence on both stellar and transit parameters. Finally, we demonstrate that the 
+logarithmic, square-root and three-parameter do a better job at retrieving the mentioned parameters from transit lightcurves both in terms of 
+bias and precision for a wide range of situations than the widely used quadratic and linear laws and therefore we recommend to study which one to 
+use on a case-by-case basis. We also provide code to guide the decision of when to use each of these laws and select the optimal one in a 
+mean-square error sense, which we note has a dependence on both stellar and transit parameters. Finally, we demonstrate that the 
 so-called exponential law is non-physical as it typically produces negative intensities close to the limb and should therefore not be used.
 \end{abstract}
 
@@ -475,13 +476,13 @@ parameters ($a_R$ and $i$) the three parameter law seems to be the best choice i
 \subsection{The bias-variance trade-off}
 \begin{figure}
 \includegraphics[scale=0.73]{which_law_to_use/bias_variance_plot.eps}
-\caption{Sketch of each of the terms that define the bias and the precision of a given estimator. The probability density of the estimator $\hat{theta}$ of 
+\caption{Sketch of each of the terms that define the bias and the precision of a given estimator. The probability density of the estimator $\hat{\theta}$ of 
 the parameter $\theta$ is depicted in red, while the real, underlying value of the parameter $\theta$ is depicted with a black solid line. Ideally, one would 
 want a low bias, high precision estimator.}
 \label{bias-variance-plot}
 \end{figure}
 
-From the results on the past sub-section, one can see that for a given set of stellar and transit parameters, a law can be chosen in order to minimise the 
+From the results on the past sub-section, one can see that for a given set of stellar and transit parameters, a law can be chosen in order to minimize the 
 biases in the retrieved transit parameters from the transit light curve. However, an interesting question is whether the precision of a given lightcurve can 
 actually provide one with enough precision in order to use a more complex parametrization of the limb-darkening effect and, depending on the answer, what is 
 the cost. Fitting a complex law to a noisy light curve will definitely lower the precision on the retrieved transit parameters due to the high flexibility of the 
@@ -489,45 +490,56 @@ model (i.e., the large parameter space that it can explore), while fitting a law
 biases, due to the strictness of the chosen model. This problem is known as the bias-variance trade-off, i.e., the problem of choosing the right amount of bias 
 and variance for a given dataset. Probabilistically, for a given estimator $\hat{\theta}$ of the parameter $\theta$, we will be interested in its variance (whose 
 square-root defines the precision), $\textnormal{Var}[\hat{\theta}]$, and its bias, defined as $\mathbb{E}[\hat{\theta}]-\theta$, where 
-$\mathbb{E}[\cdot]$ defines the expectation value and $\textnormal{Var}[\cdot]$ is the variance operator. Intuitively, one would want a low-bias and 
-high-precision (i.e., low variance) estimator for a given parameter; Figure \ref{bias-variance-plot} sketches each of those terms graphically. In this subsection, 
-we will be interested in the ratio of the \textit{absolute value} of the bias over the precision, which we define as
+$\mathbb{E}[\cdot]$ defines the expectation value and $\textnormal{Var}[\cdot]$ is the variance operator. The bias, on one hand, defines how far on average is 
+the estimator from the parameters' true value, while the variance defines the spread around the expected value of the estimator (see Figure \ref{bias-variance-plot}). 
+In this sense, one would ideally want a low-bias and high-precision (i.e. low variance) estimator, which is both close to the real value of the parameter on average and, 
+at the same time, has a low spread around such value. The problem is that in real applications one has the possibility to choose from various estimators with different 
+ammounts of bias and variance, and thus choosing among them is, at first, not trivial. This is when the mean-squared error metric comes in handy. The mean-squared 
+error (MSE) of an estimator $\hat{\theta}$ of the parameter $\theta$ is defined as
 \begin{eqnarray*}
-\textnormal{Bias/Precision} = \frac{|\mathbb{E}[\hat{\theta}]-\theta|}{\sqrt{\textnormal{Var}[\hat{\theta}]}}.
+\textnormal{MSE} &=& \mathbb{E}[(\theta - \hat{\theta})^2].
 \end{eqnarray*}
+From the definition of the MSE, it can be seen that it is a measure of the distance from the estimator to the parameters' ``true" value. As such, this provides an 
+excellent metric among a given suite of estimators for a given parameter: for a given set of estimators, the one that gives the minimum mean-squared error 
+provides, on average, the one that is closer to the underlying ``true" value on a mean-square sense. Furthermore, it is easy to shown that the MSE can be written 
+as
+\begin{eqnarray*}
+\textnormal{MSE} &=& \mathbb{E}[(\theta - \hat{\theta})^2], \\
+&=& (\mathbb{E}[\hat{\theta}]-\theta)^2 + \textnormal{Var}[\hat{\theta}],\\
+&=& \textnormal{Bias}^2 + \textnormal{Variance}.
+\end{eqnarray*}
+This implies that given the bias and the variance of an estimator, the MSE can be easily calculated. In our specific application, in the past sub-section we have already 
+shown and studied the biases that each limb-darkening law (i.e., different estimators) imply on the retrieved transit parameters through simulation. We now estimate 
+the variances implied by those limb-darkening laws.
 
 \begin{figure*}
-\includegraphics[scale=0.9]{which_law_to_use/bias_variance_tradeoff.eps}
+\includegraphics[scale=0.9]{which_law_to_use/bias_variance_tradeoff_mse.eps}
 \caption{Results of our lightcurve fits to noisy lightcurves of a typical Hot-Jupiter in order to study the bias-variance trade-off of different limb-darkening laws on the planet-to-star radius 
-ratio for lightcurves with $100$ in-transit points. The ratio of the bias to the square-root of the variance (i.e., the precision) of each estimate for different laws is 
-shown as a function of the lightcurve noise level. The line of equal bias and precision is shown as a dashed gray line.}
+ratio for lightcurves with $100$ and $1000$ in-transit points. The MSE for different laws is shown as a function of the lightcurve noise level.}
 \label{biasvariance}
 \end{figure*}
 
-Given that the study of this ratio is complex from a mathematical point of view in this case, we study it through simulations similar to the ones done in the past sub-section, 
-but this time also adding different amounts of noise to the lightcurves. In this sense, we take a Monte Carlo approach in order to study this ratio. As a case study, we take that 
-of a typical Hot-Jupiter ($p=0.1$, $a_R = 10$) around a Solar-type star ($T_\textnormal{eff}= 5500$ K) on a low impact-parameter orbit ($b=0.3$), and we focus specifically 
-on the retrieval of the planet-to-star radius ratio, which is one of the most interesting parameters retrieved from transit lightcurves. We simulate a suite of lightcurves with noise 
-levels ranging from $10$ ppm to $3000$ ppm with different amount of in-transit points; here, however, we show our results for $N=100$ and $N=1000$ in-transit points for clarity, 
-which span a range of possible scenarios for both space based (e.g., \textit{Kepler}) and ground-based observations. For each case, $300$ lightcurves are generated, 
+Given that the study of the mean-squared error is complex from a mathematical point of view in this case, we study it through simulations similar to the ones done in the past sub-section, 
+but this time also adding different amounts of noise to the lightcurves in order to estimate the variances of the estimators. In this sense, we take a Monte Carlo approach in order to study 
+the MSE. As a case study, we take that of a typical Hot-Jupiter ($p=0.1$, $a_R = 10$) around a Solar-type star ($T_\textnormal{eff}= 5500$ K) on a low impact-parameter orbit ($b=0.3$), 
+and we focus specifically on the retrieval of the planet-to-star radius ratio, which is one of the most interesting parameters retrieved from transit lightcurves. We simulate a suite of 
+lightcurves with noise levels ranging from $10$ ppm to $3000$ ppm with different amount of in-transit points; here, however, we show our results for $N=100$ and $N=1000$ in-transit 
+points for clarity, which span a range of possible scenarios for both space based (e.g., \textit{Kepler}) and ground-based observations. For each case, $300$ lightcurves are generated, 
 and all of them are fitted in the same way as it was done for their noiseless counterparts in the past sub-section. From the fit to each of the $300$ lightcurves on each case, 
-we take all the estimated planet-to-star radius ratios and estimate the precision by calculating the square-root of the variance of the sample. The results of our simulations are shown 
-on Figure \ref{biasvariance}, where we plot the ratio of the absolute value of the bias (estimated in the previous sub-section) over the precision 
-(the square-root of the variance of the estimator) as a function of the noise in the simulated lightcurves. 
+we take all the estimated planet-to-star radius ratios and estimate the variance of the sample. The results of our simulations are shown on Figure \ref{biasvariance}, where we plot the 
+MSE as a function of the noise in the simulated lightcurves. 
 
-In our results, the line of equal bias and precision marks the limit at which one should switch to a more complex law. For example, in our simulation, for $N=100$ in-transit points, the 
-linear law touches this line at $\sim 500$ ppm, which means that for more precise lightcurves the bias on the planet-to-star radius ratio is larger than the precision (e.g., for a lightcurve with a precision of $\sim 200$ 
-ppm, the bias is $\sim 2$ times larger than the precision on the parameter) and, therefore, one should switch to a more complex law. To which law should one switch? From Figure \ref{biasvariance}, 
-it can be seen that between $\sim 50-500$ ppm, the best law in terms of bias/variance trade-off for this number of in-transit points is the square-root law which, among all the laws that are below 
-the equal bias and precision line, provides the best precision. For lightcurve precisions better than $\sim 50$ ppm, it can be seen that the square-root law crosses this line and therefore another law 
-must be used, which can be selected in the same way as before (in this case, between $\sim 30-50$ ppm, the optimal decision would be to use the logarithmic law). For this specific case, it can be seen that the 
-three-parameter law is only optimal for precision better than $\sim 20$ ppm. Of course, as can be seen from the plot, if one increases the number of in-transit points, the precisions at which each law crosses the 
-equal bias and precision line are lower. For example, for $N=1000$, it can be seen that the linear law touches this line at $\sim 1500$ ppm, meaning that in this case even with a very noisy lightcurve one has to 
-switch to a better limb-darkening law if one wants to keep the bias below the precision level.
+In our results, it can be seen that the optimal law in terms of the MSE at each noise level can be selected easily. For example, in our simulation, for $N=100$ in-transit points, 
+the logarithmic law is the best for the retrieval of the planet-to-star radius ratio in a MSE sense from lightcurves with noise levels of $\sim3000$ ppm up to $\sim 1000$ ppm. 
+At this last noise level, it can be seen that the square-root law crosses the line of the logarithmic law, and this law attains the lowest MSE until $\sim 200$ ppm, where the line 
+quadratic law starts to get the lowest MSE. The quadratic law is thus the best law to use from $\sim 200$ ppm until lightcurves with precisions of $\sim25$ ppm, precision at 
+which the three-parameter law takes over and attains the lowest MSE. Note that the number of in-transit points changes where the transition among different limb-darkening 
+laws occur. For example, the transition between the quadratic and three-parameter laws occurs with lower precision lightcurves for the case of $1000$ in-transit points 
+(at $\sim 75$ ppm).
 
-From our case study, it can be seen that the selection of the optimal limb-darkening law (i.e., the one that provides the best precision among the ones that avoid biases larger than it) can be 
-estimated by simple simulation. We provide code at Github with which this can be easily done for a given set of transit and stellar parameters, along with a given lightcurve noise level and number of 
-in-transit points. 
+From our case study, it can be seen that the selection of the optimal limb-darkening law in a MSE sense can be estimated by simple simulation; however, we note that different 
+transit geometries will give rise to different optimal limb-darkening laws at a given lightcurve precision and, thus, these simulations must be performed on a case-by-case basis. 
+We provide code at Github with which this can be easily done for a given set of transit and stellar parameters, along with a given lightcurve noise level and number of in-transit points. 
 
 \section{Discussion \& Conclusions}
 
