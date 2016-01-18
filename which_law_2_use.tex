@@ -96,7 +96,7 @@ stellar astrophysics -- limb darkening -- exoplanets: transits.
 
 In the past decade, the study of transiting exoplanets has evolved from discovery to very precise characterization of these systems, 
 thanks to the exquisite precision allowed mainly by space-based observatories such as the {\em Hubble Space Telescope} ({\em HST}) and the {\em Kepler} mission \citep{koch2010}.
-This has allowed the study of precise mass-radius diagrams \citep[see, e.g.,][and references therein]{wm2014}, and in turn  allow the possibility of not only obtaining a precise determination of the internal composition of small, rocky exoplanets based on mass-radius
+This has allowed the study of precise mass-radius diagrams \citep[see, e.g.,][]{wm2014,dressing2015,WL2015b}, and in turn  allow the possibility of not only obtaining a precise determination of the internal composition of small, rocky exoplanets based on mass-radius
 measurements \citep{dorn2015} or of their atmospheric fractions from radius measurements alone \citep{WL2015}, but also of the determination of
 derived parameters of the systems that even allow for the estimation of stellar parameters directly from transit lightcurves through techniques such as asterodensity
 profiling \citep{sm2003,kipping2014AP}, or of the detection of atmospheric features in exoplanet atmospheres through the technique of transmission spectroscopy. 
@@ -499,9 +499,9 @@ error (MSE) of an estimator $\hat{\theta}$ of the parameter $\theta$ is defined 
 \begin{eqnarray*}
 \textnormal{MSE} &=& \mathbb{E}[(\theta - \hat{\theta})^2].
 \end{eqnarray*}
-From the definition of the MSE, it can be seen that it is a measure of the distance from the estimator to the parameters' ``true" value. As such, this provides an 
+From the definition of the MSE, it can be seen that it is a measure of the square of the distance from the estimator to the parameters' ``true" value. As such, this provides an 
 excellent metric among a given suite of estimators for a given parameter: for a given set of estimators, the one that gives the minimum mean-squared error 
-provides, on average, the one that is closer to the underlying ``true" value on a mean-square sense. Furthermore, it is easy to shown that the MSE can be written 
+provides, on average, the one that is closer to the underlying ``true" value on a mean-square sense. Furthermore, it is easy to show that the MSE can be written 
 as
 \begin{eqnarray*}
 \textnormal{MSE} &=& \mathbb{E}[(\theta - \hat{\theta})^2], \\
@@ -509,8 +509,9 @@ as
 &=& \textnormal{Bias}^2 + \textnormal{Variance}.
 \end{eqnarray*}
 This implies that given the bias and the variance of an estimator, the MSE can be easily calculated. In our specific application, in the past sub-section we have already 
-shown and studied the biases that each limb-darkening law (i.e., different estimators) imply on the retrieved transit parameters through simulation. We now estimate 
-the variances implied by those limb-darkening laws.
+shown and studied the biases that each limb-darkening law (i.e., different estimators) imply on the retrieved transit parameters through simulation. In this sense, we have 
+calculated the floor of the MSE for each law, and it only remains to study the variances implied by those limb-darkening laws, which is a function of the noise of the lightcurve 
+used to retrieve the transit parameters.
 
 \begin{figure*}
 \includegraphics[scale=0.9]{which_law_to_use/bias_variance_tradeoff_mse.eps}
@@ -527,19 +528,28 @@ lightcurves with noise levels ranging from $10$ ppm to $3000$ ppm with different
 points for clarity, which span a range of possible scenarios for both space based (e.g., \textit{Kepler}) and ground-based observations. For each case, $300$ lightcurves are generated, 
 and all of them are fitted in the same way as it was done for their noiseless counterparts in the past sub-section. From the fit to each of the $300$ lightcurves on each case, 
 we take all the estimated planet-to-star radius ratios and estimate the variance of the sample. The results of our simulations are shown on Figure \ref{biasvariance}, where we plot the 
-MSE as a function of the noise in the simulated lightcurves. 
+MSE as a function of the noise in the simulated lightcurves for each limb-darkening law used to retrieve the parameter. 
 
-In our results, it can be seen that the optimal law in terms of the MSE at each noise level can be selected easily. For example, in our simulation, for $N=100$ in-transit points, 
+In our results, it is evident how the MSE evolves from being variance-dominated for low-precision lightcurves (rightmost part of the plot) to bias-dominated for high-precision 
+lightcurves (leftmost part of the plot). This evolution is most evident for the linear law: for $N=100$ in-transit points, for example, the linear law attains the bias floor around 
+$\sim100$ ppm. From here and for more precise lightcurves, the MSE of this law attains the constant value $\sim 10^{-6}$, which corresponds to the bias floor of 
+$10^{-3}$, which for $p=0.1$ corresponds to the $1\%$ bias observed on our simulations on the past sub-section (Figure \ref{small_b_sims}). 
+Note that from this plot, the optimal law in terms of the MSE at each noise level can be selected easily. For example, in our simulation, for $N=100$ in-transit points, 
 the logarithmic law is the best for the retrieval of the planet-to-star radius ratio in a MSE sense from lightcurves with noise levels of $\sim3000$ ppm up to $\sim 1000$ ppm. 
-At this last noise level, it can be seen that the square-root law crosses the line of the logarithmic law, and this law attains the lowest MSE until $\sim 200$ ppm, where the line 
+At this last noise level, it can be seen that the square-root law crosses the line of the logarithmic law, and this law attains the lowest MSE until $\sim 200$ ppm, where the 
 quadratic law starts to get the lowest MSE. The quadratic law is thus the best law to use from $\sim 200$ ppm until lightcurves with precisions of $\sim25$ ppm, precision at 
 which the three-parameter law takes over and attains the lowest MSE. Note that the number of in-transit points changes where the transition among different limb-darkening 
-laws occur. For example, the transition between the quadratic and three-parameter laws occurs with lower precision lightcurves for the case of $1000$ in-transit points 
-(at $\sim 75$ ppm).
+laws occur due to the fact that the bias floor is attained faster due to the increased number of points. For example, the transition between the quadratic and three-parameter 
+laws occurs with lower precision lightcurves for the case of $1000$ in-transit points (at $\sim 75$ ppm).
 
-From our case study, it can be seen that the selection of the optimal limb-darkening law in a MSE sense can be estimated by simple simulation; however, we note that different 
-transit geometries will give rise to different optimal limb-darkening laws at a given lightcurve precision and, thus, these simulations must be performed on a case-by-case basis. 
-We provide code at Github with which this can be easily done for a given set of transit and stellar parameters, along with a given lightcurve noise level and number of in-transit points. 
+From our case study, it can be seen that the selection of the optimal limb-darkening law in a MSE sense can be estimated by simple simulation: simply calculate the MSE obtained 
+by all the laws and select the one that gives the minimum MSE. However, we note that different transit geometries will give rise to different optimal limb-darkening laws at a given 
+lightcurve precision and, thus, these simulations must be performed on a case-by-case basis. Of course, for this case-by-case study a set of transit parameters are needed as 
+inputs, which might be strange as this is what we are trying to extract from a transit lightcurve. However, as we learned from our results on this and the past sub-sections, it is important 
+to remember that the functional relation of the transit parameters and the biases/variances is smooth and slow; (i.e., small changes on the retrieved transit parameters give rise to 
+similar biases and variances). As such, one might first one to fit with one favourites' law, obtain a set of transit parameters and use these as inputs in order to calculate the MSE of 
+different limb-darkening laws in order to retrieve the final transit parameters from the law that gives the lowest MSE. We provide code at Github with which this can be easily done 
+for a given set of transit and stellar parameters, along with a given lightcurve noise level and number of in-transit points. 
 
 \section{Discussion \& Conclusions}
 
@@ -577,6 +587,7 @@ A\&A, 412, 241.
 \& Gim\'enez, A., 1992, A\&A, 259, 227.
 \bibitem[\protect\citeauthoryear{Dorn et al.}{2015}]{dorn2015} Dorn, C., Khan, A., Heng, K., Alibert, Y., Connolly, J.,
 Benz, W. \& Tackley, P., 2015, A\&A, 577, 83.
+\bibitem[\protect\citeauthoryear{Dressing et al.}{2015}]{dressing2015} Dressing, C. D., Charbonneau, D., Dumusque, X., et al., 2015, ApJ, 800, 135.
 \bibitem[\protect\citeauthoryear{Kipping}{2013}]{kipping2013} Kipping, D. M., 2013, MNRAS, 435, 2152.
 \bibitem[\protect\citeauthoryear{Kipping}{2014}]{kipping2014AP} Kipping, D. M., 2014, MNRAS, 440, 2164.
 \bibitem[\protect\citeauthoryear{Kipping}{2015}]{kipping2015} Kipping, D. M., 2015, arXiv:1509.03483.
@@ -604,6 +615,7 @@ Lecavelier Des Etangs, A., Ballester, G. E., Vidal-Madjar, A., Parmentier, V., H
 2009, A\&A, 505, 891.
 \bibitem[\protect\citeauthoryear{Weiss \& Marcy}{2014}]{wm2014} Weiss, L. \& Marcy, G., 2014, ApJ, 783L, 6.
 \bibitem[\protect\citeauthoryear{Wolfgang \& Lopez}{2015}]{WL2015} Wolfgang, A. \& Lopez, E., 2015, ApJ, 806, 183.
+\bibitem[\protect\citeauthoryear{Wolfgang, Rogers \& Ford}{2015}]{WL2015b} Wolfgang, A., Rogers, L. \& Ford, E., 2015, eprint arXiv:1504.07557.
 \end{thebibliography}
 
 
