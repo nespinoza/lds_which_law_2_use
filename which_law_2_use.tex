@@ -66,16 +66,15 @@ $^{2}$Millennium Institute of Astrophysics, Santiago, Chile\\
 \label{firstpage}
 
 \begin{abstract}
-With the advent of very precise measurements of exoplanet transit lightcurves both from ground and space based observatories, it has been 
-shown that it is now possible to fit the limb-darkening coefficients in the transit-fitting procedure rather than fix them to theoretical values. 
-This strategy has been shown to give better results as fixing the coefficients to theoretical values can give rise to important yet unknown systematic 
+Very precise measurements of exoplanet transit lightcurves both from ground and space based observatories make it now possible to fit the limb-darkening coefficients in the transit-fitting procedure rather than fix them to theoretical values. 
+This strategy has been shown to give better results, as fixing the coefficients to theoretical values can give rise to important systematic 
 errors, which directly impact the physical properties of the system derived from such lightcurves such as the exoplanet's radius, scaled 
 semi-major axis and inclination. However, studies of the effect of limb darkening assumptions on the retrieved parameters 
 have mostly focused on the widely used quadratic limb-darkening law, leaving out other proposed laws that are either simpler (e.g., the linear law) or 
-in fact better descriptions of model intensity profiles, which in principle could diminish the bias even further. In this work, we show that laws such as the 
-logarithmic, square-root and three-parameter do a better job at retrieving the mentioned parameters from transit lightcurves both in terms of 
-bias and precision for a wide range of situations than the widely used quadratic and linear laws and therefore we recommend to study which one to 
-use on a case-by-case basis. We also provide code to guide the decision of when to use each of these laws and select the optimal one in a 
+better descriptions of model intensity profiles. In this work, we show that laws such as the 
+logarithmic, square-root and three-parameter law do a better job that the quadratic and linear laws when deriving parameters from transit lightcurves, both in terms of 
+bias and precision, for a wide range of situations. We therefore recommend to study which law to 
+use on a case-by-case basis. We provide code to guide the decision of when to use each of these laws and select the optimal one in a 
 mean-square error sense, which we note has a dependence on both stellar and transit parameters. Finally, we demonstrate that the 
 so-called exponential law is non-physical as it typically produces negative intensities close to the limb and should therefore not be used.
 \end{abstract}
@@ -96,19 +95,19 @@ stellar astrophysics -- limb darkening -- exoplanets: transits.
 
 In the past decade, the study of transiting exoplanets has evolved from discovery to very precise characterization of these systems, 
 thanks to the exquisite precision allowed mainly by space-based observatories such as the {\em Hubble Space Telescope} ({\em HST}) and the {\em Kepler} mission \citep{koch2010}.
-This has allowed the study of precise mass-radius diagrams \citep[see, e.g.,][]{wm2014,dressing2015,WL2015b}, and in turn  allow the possibility of not only obtaining a precise determination of the internal composition of small, rocky exoplanets based on mass-radius
-measurements \citep{dorn2015} or of their atmospheric fractions from radius measurements alone \citep{WL2015}, but also of the determination of
+This has allowed the study of precise mass-radius diagrams \citep[see, e.g.,][]{wm2014,dressing2015,WL2015b}, and in turn  allow the possibility of  obtaining a precise determination of the internal composition of small, rocky exoplanets based on mass-radius
+measurements \citep{dorn2015} and of their atmospheric fractions from radius measurements alone \citep{WL2015}. In addition, precise transit lightcurves enable the determination of
 derived parameters of the systems that even allow for the estimation of stellar parameters directly from transit lightcurves through techniques such as asterodensity
-profiling \citep{sm2003,kipping2014AP}, or of the detection of atmospheric features in exoplanet atmospheres through the technique of transmission spectroscopy. 
-All these studies and techniques rely on the retrieval of precise and accurate transit parameters from transit lightcurves.
+profiling \citep{sm2003,kipping2014AP}, and the detection of atmospheric features in exoplanet atmospheres through the technique of transmission spectroscopy. 
+All these studies and techniques rely on the retrieval of {\em precise and accurate} transit parameters from transit lightcurves.
 
 In a recent study \citep[][hereon EJ15]{ej2015}, we showed that the accuracy is actually catching up with the precision 
 of these measurements due to our imperfect understanding of the limb-darkening effect. In particular, we showed that there are important 
 biases both when fixing and fitting for the limb-darkening coefficients in the light curve fitting process. The biases when fitting for the 
 limb darkening coefficients arise from the fact that the popular and widely used quadratic law is unable to model the complex intensity profile 
 of real stars \citep[which has also been seen on other studies, see, e.g.,][]{knutson2007, kreidberg2015},  and the biases when fixing the coefficients arise for the
-same reason plus the facts that different methods of fitting the model intensity profiles (including transit light curve versus intensity profile fitting) give rise to 
-different limb-darkening coefficients and the fact that we have an imperfect knowledge of the real intensity profiles of stars. We showed that fixing the limb-darkening 
+same reason plus the facts that (1) different methods of fitting the model intensity profiles (including transit light curve versus intensity profile fitting) give rise to 
+different limb-darkening coefficients and (2) that we have an imperfect knowledge of the real intensity profiles of stars. We showed that fixing the limb-darkening 
 coefficients is the worst option if one aims to obtain precise \textit{and} accurate transit parameters, because the biases arise from three different sources, 
 with the last one (the fact that we do not have a perfect modelling of the stellar intensity profiles of real stars) having an unknown but possibly 
 large impact.
@@ -130,15 +129,15 @@ based on) have significant systematic errors.
 
 An obvious solution to the issues mentioned above if one decides to fit the limb-darkening coefficients is to try to use alternative laws to describe 
 the intensity profile of stars. Although the non-linear law proposed by \cite{claret2000} seems to be the most flexible, the fact that it has four free 
-parameters does not make it a very attractive one. Several laws with fewer parameters 
+parameters does not make it a very attractive one given its high complexity. Several laws with fewer parameters 
 have been proposed. Two-parameter laws are the exponential proposed by \cite{claret2003}, the logarithmic proposed by \cite{klinglesmith1970} and 
 the square-root proposed by \cite{diazgimenez1992}. In addition, a very flexible three-parameter law was also proposed by \cite{sing2009}. These laws 
-with fewer parameters are potentially very attractive for transit fitting purposes, due to their flexibility at following different intensity profiles and their low 
+with fewer parameters are potentially very attractive for transit fitting purposes, due to their flexibility at following different center to limb stellar intensity profiles and their low 
 number of parameters \citep[see, e.g., ][for a comparison between the goodness of fit to ATLAS model atmospheres of the mentioned two-parameter laws 
 which outperform the linear and quadratic laws in terms of following the intensity profiles]{howarth2011}.
 
 Despite the attractive nature of the above mentioned limb-darkening laws, testing their performance at retrieving transit parameters from transit 
-lightcurves was a problem until recently for two reasons. First, there was no publicly available code capable of efficiently generating fast and accurate 
+lightcurves was problematic until recently for two reasons. First, there was no publicly available code capable of efficiently generating fast and accurate 
 transit lightcurves using all of these non-standard laws. However, recently \cite{batman2015} published an 
 algorithm that does exactly this called \texttt{batman}, enabling the generation of transit lightcurves very efficiently with any arbitrary limb-darkening law. 
 The second problem was that it was not clear how to sample limb-darkening coefficients in an informative (i.e., sampling all the physically possible parameter 
@@ -148,14 +147,14 @@ same principles, derived an algorithmic way of doing this for two-parameter laws
 no constrains for this law could be derived. We note that the form of the logarithmic law used in \cite{kipping2013} differs from the standard one proposed by 
 \cite{klinglesmith1970}. Thus, in order to  efficiently sample coefficients from the latter limb-darkening law one has to derive an efficient  informative sampling scheme for it.
 
-In this work, we test how well these non-standard laws perform at retrieving transit parameters from transit lightcurves. We follow \cite{kipping2013} in order to 
+In this work, we aim to test how well these non-standard laws perform at retrieving transit parameters from transit lightcurves. We follow \cite{kipping2013} in order to 
 derive an efficient sampling scheme for the standard form of the logarithmic and exponential laws, and show that the latter is actually \textit{always} non-physical 
 in the sense proposed by \cite{kipping2013}. Then, we simulate transit lightcurves and perform simulations studies which extend the one done in EJ15 in several ways. 
-First, we study not only the accuracy problem but also the precision issue on the retrieved parameters. Second, we study the mentioned non-standard limb-darkening laws by 
-using the derived sampling schemes for the logarithmic law derived in this work, the sampling schemes detailed in \cite{kipping2013} for the other two-parameter laws 
+First, we study not only the accuracy problem but also the precision issue on the retrieved parameters. Second, we study the non-standard limb-darkening laws by 
+using a sampling scheme for the standard form of the logarithmic law derived in this work, the sampling schemes detailed in \cite{kipping2013} for the other two-parameter laws 
 and \cite{kipping2015} for the three-parameter law. In addition, we also study the performance of the linear law, which has been used in recent years by several authors 
 to parametrize the limb-darkening effect. We use our simulations to provide guidance as to when a particular law should be preferred, and provide code which, given the 
-precision of a given transit lightcurve and a set of transit and stellar parameters, helps to decide which law is the optimal (i.e., with the best bias/variance trade-off) one to use. 
+precision of a transit lightcurve and a set of transit and stellar parameters, helps to decide which law is the optimal to use.
 
 This work is organised as follows. In \S2, we revisit the logarithmic and exponential laws in order to derive an efficient informative sampling strategy following the methods 
 in \cite{kipping2013} for the standard forms of these laws. In \S3 we use those results in addition to the ones published by \cite{kipping2013} and \cite{kipping2015} in order 
@@ -172,20 +171,20 @@ conclusions of our work.
 
 \section{Efficient sampling of coefficients from the logarithmic and exponential laws revisited}
 
-As explained in the introduction, an informative and efficient sampling of limb-darkening coefficients 
-in order to fit them to transit lightcurves is fundamental. Motivated by this, \cite{kipping2013} introduced 
-a procedure which first imposes physically motivated constrains on the intensity profiles, namely, an everywhere 
+An informative and efficient sampling of limb-darkening coefficients is desirable in order to fit them to transit lightcurves. Motivated by this, 
+\cite{kipping2013} introduced 
+a procedure which first imposes physically motivated constrains on the center to limb stellar intensity profiles $I(\mu)$, namely, an everywhere 
 positive intensity, $I(\mu)>0$,  and a decreasing intensity profile from center to limb, $\partial I(\mu)/\partial \mu>0$, 
-which in turn impose constraints on the two parameters of the law. With these constraints in hand, 
+which in turn impose constraints on the parameters of the law. With these constraints in hand, 
 \cite{kipping2013} devised a triangular sampling strategy which only requires sampling two uniformly distributed numbers between 
 0 and 1, $q_1$ and $q_2$, which through a transformation can be transformed to sample coefficients. This was done in that work for the most popular two-parameter limb-darkening laws with the exceptions of the 
-exponential limb-darkening law, whose derived constraints on the coefficients were not enough 
+exponential limb-darkening law, whose derived constraints on the coefficients were stated to be not enough 
 to use the triangular sampling technique, and the typical form of the logarithmic law, which is 
 different to the one used in \cite{kipping2013}. 
 
-We now derive an informative and efficient sampling strategy for the more typical form of the logarithmic law and then 
+We derive here informative and efficient sampling strategy for the more typical form of the logarithmic law and then 
 we study the exponential law, for which we conclude that deriving an efficient sampling strategy is actually 
-impossible; this implies that the law is fundamentally non-physical and, therefore, should not be used. 
+impossible. We find that the law is fundamentally non-physical and, therefore, should not be used. 
 
 \subsection{Efficient sampling from the logarithmic law}
 
@@ -417,18 +416,17 @@ The results of the simulations for central transits (i.e., $b=0$) are shown in F
 input values of $p$. The upper panels show the biases introduced on the planet-to-star radius ratio, $p$, and the lower panels show the biases introduced 
 on the scaled semi-major axes, $a_R$. From left to right, the panels show the biases introduced by using a linear law, a quadratic law, a logarithmic law, a 
 square-root law and a three-parameter law. The dependence with the input values of $a_R$ are not shown as the bias seems to be almost independent of 
-this parameter in this case (this can be also seen by looking at the lower panels of Figure~10 in EJ15, which give the same results as the ones shown here for 
+this parameter in this case\footnote{This can be also seen by looking at the lower panels of Figure~10 in EJ15, which give the same results as the ones shown here for 
 the quadratic law. We note that this implies good agreement between the simulations done with our implementation of the \cite{ma2002} codes for the transit light 
-curve generation and the \texttt{batman} code). 
+curve generation and the \texttt{batman} code}. 
 
 As can be seen from the figure, different limb-darkening laws have different behaviours in retrieving $p$ and $a_R$, with a dependence on the input value of 
 $p$, and also depending on the temperature of the host star. First, it is interesting to note that the linear law is by far the worst of the laws in terms of bias. As 
 expected from its very simple form, the biases on the retrieved transit parameters are larger than the ones observed on the two and three-parameter laws for 
-almost all the stellar temperatures except for $T_\textnormal{eff}\sim 4500$, where the profile seems to be a decent (yet poorer than the ones provided by the 
-other laws) approximation to the real intensity profile. A second feature to note on our results is that the logarithmic law does a very good job at retrieving the 
+almost all the stellar temperatures except for $T_\textnormal{eff}\sim 4500$, where the profile seems to be a decent  approximation to the real intensity profile (yet poorer than the ones provided by the 
+other laws). A second feature to note on our results is that the logarithmic law does a very good job at retrieving the 
 parameters of small planet-to-star radius ratios, even at the level of the three-parameter law for stars with $T_\textnormal{eff}<6000$ K, and also for medium 
-and large planet-to-star radius ratios with host-stars with $T_\textnormal{eff}<4000$ K (which makes this law a good choice for present and future transit 
-detection and characterisation around M-dwarfs). The quadratic law, on the other hand, is only the best among the options for host-stars between 
+and large planet-to-star radius ratios with host-stars with $T_\textnormal{eff}<4000$ K. This makes this law a very good choice for present and future transit characterisation around M-dwarfs. The quadratic law, on the other hand, is only the best for host-stars between 
 $4250<T_\textnormal{eff}<5500$ K, with the logarithmic law being the best in the $5500<T_\textnormal{eff}<6250$ K range, and the square-root law 
 being the best for planets around host stars with temperatures between $6250<T_\textnormal{eff}<8000$ K. Hotter than this, the best option in terms 
 of accuracy is the three-parameter law.
@@ -478,29 +476,27 @@ parameters ($a_R$ and $i$) the three parameter law seems to be the best choice i
 \includegraphics[scale=0.73]{which_law_to_use/bias_variance_plot.eps}
 \caption{Sketch of each of the terms that define the bias and the precision of a given estimator. The probability density of the estimator $\hat{\theta}$ of 
 the parameter $\theta$ is depicted in red, while the real, underlying value of the parameter $\theta$ is depicted with a black solid line. Ideally, one would 
-want a low bias, high precision estimator.}
+want a low bias, high precision estimator.{\bf TBD Here under sqrt(variance) it should say 1/precision}}
 \label{bias-variance-plot}
 \end{figure}
 
 From the results on the past sub-section, one can see that for a given set of stellar and transit parameters, a law can be chosen in order to minimize the 
 biases in the retrieved transit parameters from the transit light curve. However, an interesting question is whether the precision of a given lightcurve can 
-actually provide one with enough precision in order to use a more complex parametrization of the limb-darkening effect and, depending on the answer, what is 
-the cost. Fitting a complex law to a noisy light curve will definitely lower the precision on the retrieved transit parameters due to the high flexibility of the 
-model (i.e., the large parameter space that it can explore), while fitting a law that is too simple for a very precise lightcurve will most definitely lead to larger 
-biases, due to the strictness of the chosen model. This problem is known as the bias-variance trade-off, i.e., the problem of choosing the right amount of bias 
-and variance for a given dataset. Probabilistically, for a given estimator $\hat{\theta}$ of the parameter $\theta$, we will be interested in its variance (whose 
+actually provide enough precision in order to use a more complex parametrization of the limb-darkening effect and, depending on the answer, what is 
+the cost. Fitting a complex law to a noisy light curve will definitely lower the precision of the retrieved transit parameters due to the high flexibility of the 
+model, while fitting a law that is too simple for a very precise lightcurve will most definitely lead to larger 
+biases, due to the strictness of the chosen model. This problem is known as the bias-variance trade-off. Probabilistically, for a given estimator $\hat{\theta}$ of the parameter $\theta$, we will be interested in its variance (whose 
 square-root defines the precision), $\textnormal{Var}[\hat{\theta}]$, and its bias, defined as $\mathbb{E}[\hat{\theta}]-\theta$, where 
 $\mathbb{E}[\cdot]$ defines the expectation value and $\textnormal{Var}[\cdot]$ is the variance operator. The bias, on one hand, defines how far on average is 
 the estimator from the parameters' true value, while the variance defines the spread around the expected value of the estimator (see Figure \ref{bias-variance-plot}). 
-In this sense, one would ideally want a low-bias and high-precision (i.e. low variance) estimator, which is both close to the real value of the parameter on average and, 
+One ideally wants a low-bias and high-precision estimator, which is both close to the real value of the parameter on average and, 
 at the same time, has a low spread around such value. The problem is that in real applications one has the possibility to choose from various estimators with different 
 ammounts of bias and variance, and thus choosing among them is, at first, not trivial. This is when the mean-squared error metric comes in handy. The mean-squared 
 error (MSE) of an estimator $\hat{\theta}$ of the parameter $\theta$ is defined as
 \begin{eqnarray*}
 \textnormal{MSE} &=& \mathbb{E}[(\theta - \hat{\theta})^2].
 \end{eqnarray*}
-From the definition of the MSE, it can be seen that it is a measure of the square of the distance from the estimator to the parameters' ``true" value. As such, this provides an 
-excellent metric among a given suite of estimators for a given parameter: for a given set of estimators, the one that gives the minimum mean-squared error 
+From the definition of the MSE, it can be seen that it is a measure of the square of the distance from the estimator to the parameters' ``true" value. This provides a metric among a given suite of estimators for a given parameter: the one that gives the minimum mean-squared error 
 provides, on average, the one that is closer to the underlying ``true" value on a mean-square sense. Furthermore, it is easy to show that the MSE can be written 
 as
 \begin{eqnarray*}
@@ -509,7 +505,7 @@ as
 &=& \textnormal{Bias}^2 + \textnormal{Variance}.
 \end{eqnarray*}
 This implies that given the bias and the variance of an estimator, the MSE can be easily calculated. In our specific application, in the past sub-section we have already 
-shown and studied the biases that each limb-darkening law (i.e., different estimators) imply on the retrieved transit parameters through simulation. In this sense, we have 
+shown and studied the biases that each limb-darkening law (i.e., different estimators) imply on the retrieved transit parameters through simulation. We have thus already
 calculated the floor of the MSE for each law, and it only remains to study the variances implied by those limb-darkening laws, which is a function of the noise of the lightcurve 
 used to retrieve the transit parameters.
 
@@ -520,35 +516,34 @@ ratio for lightcurves with $100$ and $1000$ in-transit points. The MSE for diffe
 \label{biasvariance}
 \end{figure*}
 
-Given that the study of the mean-squared error is complex from a mathematical point of view in this case, we study it through simulations similar to the ones done in the past sub-section, 
-but this time also adding different amounts of noise to the lightcurves in order to estimate the variances of the estimators. In this sense, we take a Monte Carlo approach in order to study 
+Given that the study of the mean-squared error is complex from a mathematical point of view for our case, we study it through simulations similar to the ones done in the past sub-section, 
+but this time also adding different amounts of noise to the lightcurves in order to derive the variances of the estimators for a given level of noise. We take a Monte Carlo approach in order to study 
 the MSE. As a case study, we take that of a typical Hot-Jupiter ($p=0.1$, $a_R = 10$) around a Solar-type star ($T_\textnormal{eff}= 5500$ K) on a low impact-parameter orbit ($b=0.3$), 
 and we focus specifically on the retrieval of the planet-to-star radius ratio, which is one of the most interesting parameters retrieved from transit lightcurves. We simulate a suite of 
-lightcurves with noise levels ranging from $10$ ppm to $3000$ ppm with different amount of in-transit points; here, however, we show our results for $N=100$ and $N=1000$ in-transit 
-points for clarity, which span a range of possible scenarios for both space based (e.g., \textit{Kepler}) and ground-based observations. For each case, $300$ lightcurves are generated, 
+lightcurves with noise levels ranging from $10$ ppm to $3000$ ppm with different amount of in-transit points. We show our results for $N=100$ and $N=1000$ in-transit 
+points, which span a range of possible scenarios for both space based (e.g., \textit{Kepler}) and ground-based observations. For each case, $300$ lightcurves are generated, 
 and all of them are fitted in the same way as it was done for their noiseless counterparts in the past sub-section. From the fit to each of the $300$ lightcurves on each case, 
-we take all the estimated planet-to-star radius ratios and estimate the variance of the sample. The results of our simulations are shown on Figure \ref{biasvariance}, where we plot the 
-MSE as a function of the noise in the simulated lightcurves for each limb-darkening law used to retrieve the parameter. 
+we take all the estimated planet-to-star radius ratios and estimate the variance of the sample. The results of our simulations are shown on Figure~\ref{biasvariance}, where we plot the 
+MSE as a function of the noise of the simulated lightcurves for each of the limb-darkening law used to retrieve the parameter. 
 
-In our results, it is evident how the MSE evolves from being variance-dominated for low-precision lightcurves (rightmost part of the plot) to bias-dominated for high-precision 
+It is evident from our results how the MSE evolves from being variance-dominated for low-noise lightcurves (rightmost part of the plot) to bias-dominated for high-noise 
 lightcurves (leftmost part of the plot). This evolution is most evident for the linear law: for $N=100$ in-transit points, for example, the linear law attains the bias floor around 
-$\sim100$ ppm. From here and for more precise lightcurves, the MSE of this law attains the constant value $\sim 10^{-6}$, which corresponds to the bias floor of 
-$10^{-3}$, which for $p=0.1$ corresponds to the $1\%$ bias observed on our simulations on the past sub-section (Figure \ref{small_b_sims}). 
-Note that from this plot, the optimal law in terms of the MSE at each noise level can be selected easily. For example, in our simulation, for $N=100$ in-transit points, 
-the logarithmic law is the best for the retrieval of the planet-to-star radius ratio in a MSE sense from lightcurves with noise levels of $\sim3000$ ppm up to $\sim 1000$ ppm. 
-At this last noise level, it can be seen that the square-root law crosses the line of the logarithmic law, and this law attains the lowest MSE until $\sim 200$ ppm, where the 
-quadratic law starts to get the lowest MSE. The quadratic law is thus the best law to use from $\sim 200$ ppm until lightcurves with precisions of $\sim25$ ppm, precision at 
-which the three-parameter law takes over and attains the lowest MSE. Note that the number of in-transit points changes where the transition among different limb-darkening 
-laws occur due to the fact that the bias floor is attained faster due to the increased number of points. For example, the transition between the quadratic and three-parameter 
-laws occurs with lower precision lightcurves for the case of $1000$ in-transit points (at $\sim 75$ ppm).
+$\approx100$ ppm. From here and for more precise lightcurves, the MSE of this law attains the constant value $\sim 10^{-6}$, which corresponds to the bias floor of 
+$10^{-3}$, which for $p=0.1$ corresponds to the $1\%$ bias observed on our simulations on the past sub-section (see Figure~\ref{small_b_sims}). 
+Note that from this plot, the optimal law in terms of the MSE at each noise level can be selected with easse. For example, in our simulation, for $N=100$ in-transit points, 
+the logarithmic law is the best for the retrieval of the planet-to-star radius ratio in a MSE sense for lightcurves with noise levels between $\approx3000$ ppm to $\approx 1000$ ppm. 
+At this last noise level, we see that the square-root law crosses the line of the logarithmic law, and this latter law attains the lowest MSE until $\approx 200$ ppm, where the 
+quadratic law starts to get the lowest MSE. The quadratic law is thus the best law to use from $\approx 200$ ppm until lightcurves with precisions of $\approx25$ ppm, a noise level at 
+which the three-parameter law takes over and attains the lowest MSE. Note that the number of in-transit points changes the  points at which the transition among different limb-darkening 
+laws occur due to the fact that the bias floor is attained faster as a consequence of the increased number of points. For example, the transition between the quadratic and three-parameter 
+laws occurs for lower precision lightcurves for the case of $1000$ in-transit points (at $\approx 75$ ppm).
 
-From our case study, it can be seen that the selection of the optimal limb-darkening law in a MSE sense can be estimated by simple simulation: simply calculate the MSE obtained 
+From our case study, we propose that the selection of the optimal limb-darkening law in a MSE sense can be estimated by simple simulation:  for a given observational setup in terms of cadence and noise, simply calculate the MSE obtained 
 by all the laws and select the one that gives the minimum MSE. However, we note that different transit geometries will give rise to different optimal limb-darkening laws at a given 
 lightcurve precision and, thus, these simulations must be performed on a case-by-case basis. Of course, for this case-by-case study a set of transit parameters are needed as 
-inputs, which might be strange as this is what we are trying to extract from a transit lightcurve. However, as we learned from our results on this and the past sub-sections, it is important 
-to remember that the functional relation of the transit parameters and the biases/variances is smooth and slow; (i.e., small changes on the retrieved transit parameters give rise to 
-similar biases and variances). As such, one might first one to fit with one favourites' law, obtain a set of transit parameters and use these as inputs in order to calculate the MSE of 
-different limb-darkening laws in order to retrieve the final transit parameters from the law that gives the lowest MSE. We provide code at Github with which this can be easily done 
+inputs, which is a bit circular as this is what we are trying to extract from a transit lightcurve. However, as we learned from our results on this and the past sub-sections, it is important 
+to remember that the functional relation of the transit parameters and the biases/variances is smooth and slow. Therefore, one can first fit with one favourites' law, obtain a set of transit parameters, and use those as inputs in order to calculate the MSE of 
+different limb-darkening laws in order to then retrieve the final transit parameters from the law that gives the lowest MSE. We provide code at Github with which this process be easily done 
 for a given set of transit and stellar parameters, along with a given lightcurve noise level and number of in-transit points. 
 
 \section{Discussion \& Conclusions}
@@ -558,17 +553,15 @@ explored the biases introduced by using the linear law, three two-parameter laws
 and defined a way to select the optimal law for a given lightcurve precision and number of in-transit points. We showed that a careful selection of the limb-darkening law to be 
 used in a given dataset can allow one to retrieve optimal estimators for the transit parameters from transit lightcurves. In general, as shown in \S3, two-parameter laws have ranges 
 in which they perform at the same level or even better than the three-parameter law and, because of this, we encourage their use. We also discourage the usage of the exponential 
-law which, as shown in \S2.2 is unphysical, and can lead to numerical errors if used on real data where sampling of points close to the limb (where the law diverges) is not uncommon.
+law which, as shown in \S2.2 is unphysical, and can lead to numerical errors if used on real data where sampling of points close to the limb is not uncommon.
 
 The question of when to use each of those laws is an important one. In particular, we have explored the relation between the real, underlying 
 transit parameters, the stellar host properties and the bias/variance on the retrieved transit parameters. We have stated no specific rule regarding when to use each 
-law, but rather provided only guidelines based on our simulations. This is a choice made on purpose, as the selection of which law to use has to be done in a 
-case-by-case basis, reason for which we provide code with which one can obtain the results of the same simulations performed on our work for specific 
-cases and with different resolutions\footnote{\url{http://www.github.com/nespinoza/ld-exosim/}}. It is important to note that in this work we have used the 
+law, but rather provided guidelines based on our simulations. This is a choice made on purpose, as the selection of which law to use has to be done in a 
+case-by-case basis, a task for which we provide code with which one can obtain the results of the same simulations performed on our work for specific 
+cases \footnote{\url{http://www.github.com/nespinoza/ld-exosim/}}. It is important to note that in this work we have used the 
 {\em Kepler} bandpass to study the relation between the biases/variances on the retrieved transit parameters and the stellar host properties, but different bandpasses should give 
-rise to  different functional relations because they give rise to different model intensity profiles, which are used in those simulations to approximate the 
-expected intensity profile and the adequacy of each limb-darkening law at following it. Limb-darkening coefficients have to be calculated for each 
-particular case, which is straightforward to do using the algorithms described in EJ15\footnote{\url{http://www.github.com/nespinoza/limb-darkening/}}.
+rise to  different functional relations because they give rise to different model intensity profiles. Limb-darkening coefficients have to be calculated for each  particular case, which is straightforward to do using the algorithms described in EJ15\footnote{\url{http://www.github.com/nespinoza/limb-darkening/}}.
 
 \section{Acknowledgmenets}
 
