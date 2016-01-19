@@ -476,7 +476,7 @@ parameters ($a_R$ and $i$) the three parameter law seems to be the best choice i
 \includegraphics[scale=0.73]{which_law_to_use/bias_variance_plot.eps}
 \caption{Sketch of each of the terms that define the bias and the precision of a given estimator. The probability density of the estimator $\hat{\theta}$ of 
 the parameter $\theta$ is depicted in red, while the real, underlying value of the parameter $\theta$ is depicted with a black solid line. Ideally, one would 
-want a low bias, high precision estimator.{\bf TBD Here under sqrt(variance) it should say 1/precision}}
+want a low bias, high precision estimator.}
 \label{bias-variance-plot}
 \end{figure}
 
@@ -524,7 +524,7 @@ lightcurves with noise levels ranging from $10$ ppm to $3000$ ppm with different
 points, which span a range of possible scenarios for both space based (e.g., \textit{Kepler}) and ground-based observations. For each case, $300$ lightcurves are generated, 
 and all of them are fitted in the same way as it was done for their noiseless counterparts in the past sub-section. From the fit to each of the $300$ lightcurves on each case, 
 we take all the estimated planet-to-star radius ratios and estimate the variance of the sample. The results of our simulations are shown on Figure~\ref{biasvariance}, where we plot the 
-MSE as a function of the noise of the simulated lightcurves for each of the limb-darkening law used to retrieve the parameter. 
+MSE as a function of the noise of the simulated lightcurves for each of the limb-darkening laws used to retrieve the parameter. 
 
 It is evident from our results how the MSE evolves from being variance-dominated for low-noise lightcurves (rightmost part of the plot) to bias-dominated for high-noise 
 lightcurves (leftmost part of the plot). This evolution is most evident for the linear law: for $N=100$ in-transit points, for example, the linear law attains the bias floor around 
@@ -542,9 +542,10 @@ From our case study, we propose that the selection of the optimal limb-darkening
 by all the laws and select the one that gives the minimum MSE. However, we note that different transit geometries will give rise to different optimal limb-darkening laws at a given 
 lightcurve precision and, thus, these simulations must be performed on a case-by-case basis. Of course, for this case-by-case study a set of transit parameters are needed as 
 inputs, which is a bit circular as this is what we are trying to extract from a transit lightcurve. However, as we learned from our results on this and the past sub-sections, it is important 
-to remember that the functional relation of the transit parameters and the biases/variances is smooth and slow. Therefore, one can first fit with one favourites' law, obtain a set of transit parameters, and use those as inputs in order to calculate the MSE of 
-different limb-darkening laws in order to then retrieve the final transit parameters from the law that gives the lowest MSE. We provide code at Github with which this process be easily done 
-for a given set of transit and stellar parameters, along with a given lightcurve noise level and number of in-transit points. 
+to remember that the functional relation of the transit parameters and the biases/variances is smooth and slow. Therefore, one can first fit with one favourites' law, obtain a set of 
+transit parameters, and use those as inputs in order to calculate the MSE of different limb-darkening laws in order to then retrieve the final transit parameters from the law that gives 
+the lowest MSE. We provide code at Github with which this process can be easily done for a given set of transit and stellar parameters, along with a given lightcurve noise level and 
+number of in-transit points. 
 
 \section{Discussion \& Conclusions}
 
