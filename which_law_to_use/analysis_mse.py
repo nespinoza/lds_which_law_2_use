@@ -125,6 +125,11 @@ for i in range(len(ld_laws)):
                                        style.linestyle.solid,\
                                        style.linewidth.THick])])
 
+    print 'ld_law     : ',ld_law
+    print 'lc precs   : ',precisions
+    print 'biases     : ',data[ld_law]['100']['bias_p']
+    print 'precisions : ',data[ld_law]['100']['precision_p']
+
     text_pyx(g, np.sqrt(precisions[0]*precisions[1]), data[ld_law]['100']['bias_p'][1]**2+data[ld_law]['100']['precision_p'][1]**2+delta_y[i], names[i], \
              text_size = -1, color = colors[i], rotation = rotation[i])
 
