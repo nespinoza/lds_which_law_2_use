@@ -21,15 +21,10 @@ Dear Mrs. Bella,
      - Changed the title of the manuscript to reflect the additional study 
        proposed by the referee on the precision of the retrieved transit 
        parameters, which implies we now not only help to decide the law 
-       that provide minimum bias, but also the one that provides the 
-       best precision. This in turn means that we help to decide the 
-       optimal law, which is a statistical jargon for "lowest bias, 
-       lowest variance" model.
+       that provide minimum bias, but also the one that is optimal in a mean squared error sense.
 
      - Added extra text on the Abstract, Introduction and Section 3 to reflect 
-       these changes in the study. This includes a change of the name of Section 3, 
-       and an additional sub-section explaining the procedures used to study the 
-       bias/variance trade-off.
+       these changes in the study. This includes a change of the name of Section 3, and an additional sub-section explaining the procedures used to study the bias/variance trade-off.
 
      - Modified the Acknowledgments.
 
@@ -51,7 +46,7 @@ Dear Mrs. Bella,
 >> transiting a Sun-like star).  I leave it up to the authors whether/how to address 
 >> this point.
 
-We thank the referee for this very insightful suggestion. We have made a whole suit of 
+We thank the referee for this very insightful suggestion. We have made a whole suite of 
 simulations which exactly answers this question, and provide code so future researchers 
 can decide which is the best law both in terms of bias and precision for their specific 
 application; in this way, researchers can decide the optimal limb-darkening law for the 
