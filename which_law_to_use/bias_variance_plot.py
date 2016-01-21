@@ -111,7 +111,7 @@ draw_arrow(g,mu+0.15,(1./np.sqrt(2.*np.pi*sigma))*np.exp(-(sigma)**2/(2.*sigma**
                 (1./np.sqrt(2.*np.pi*sigma))*np.exp(-(sigma)**2/(2.*sigma**2)),1.0,color.cmyk.Red)
 
 text_pyx(g,mu+(sigma/2.),(1./np.sqrt(2.*np.pi*sigma))*np.exp(-(sigma)**2/(2.*sigma**2))+0.01,r'$\sqrt{\textnormal{Var}[\hat{\theta}]}$',color=color.cmyk.Red)
-text_pyx(g,mu+(sigma/2.),(1./np.sqrt(2.*np.pi*sigma))*np.exp(-(sigma)**2/(2.*sigma**2))-0.01,r'(1/Precision)',color=color.cmyk.Red)
+text_pyx(g,mu+(sigma/2.),(1./np.sqrt(2.*np.pi*sigma))*np.exp(-(sigma)**2/(2.*sigma**2))-0.01,r'(1/$\sqrt{\textnormal{Precision}}$)',color=color.cmyk.Red)
 text_pyx(g,mu/2.,0.25 + 0.01,r'$\mathbb{E}[\hat{\theta}]-\theta$')
 text_pyx(g,mu/2.,0.25 - 0.01,r'(Bias)')
 

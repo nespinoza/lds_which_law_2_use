@@ -488,11 +488,11 @@ biases in the retrieved transit parameters from the transit light curve. However
 actually provide enough precision in order to use a more complex parametrization of the limb-darkening effect and, depending on the answer, what is 
 the cost. Fitting a complex law to a noisy light curve will definitely lower the precision of the retrieved transit parameters due to the high flexibility of the 
 model, while fitting a law that is too simple for a very precise lightcurve will most definitely lead to larger 
-biases, due to the strictness of the chosen model. This problem is known as the bias-variance trade-off. Probabilistically, for a given estimator $\hat{\theta}$ of the parameter $\theta$, we will be interested in its variance (whose 
-square-root defines the inverse precision), $\textnormal{Var}[\hat{\theta}]$, and its bias, defined as $\mathbb{E}[\hat{\theta}]-\theta$, where 
-$\mathbb{E}[\cdot]$ defines the expectation value and $\textnormal{Var}[\cdot]$ is the variance operator. The bias, on one hand, defines how far on average is 
-the estimator from the parameters' true value, while the variance defines the spread around the expected value of the estimator (see Figure \ref{bias-variance-plot}). 
-One ideally wants a low-bias and high-precision estimator, which is both close to the real value of the parameter on average and, 
+biases, due to the strictness of the chosen model. This problem is known as the bias-variance trade-off. Probabilistically, for a given estimator $\hat{\theta}$ of 
+the parameter $\theta$, we will be interested in its variance (whose inverse defines the precision), $\textnormal{Var}[\hat{\theta}]$, and its bias, defined as 
+$\mathbb{E}[\hat{\theta}]-\theta$, where $\mathbb{E}[\cdot]$ defines the expectation value and $\textnormal{Var}[\cdot]$ is the variance operator. The bias, on 
+one hand, defines how far on average is the estimator from the parameters' true value, while the variance defines the spread around the expected value of the 
+estimator (see Figure \ref{bias-variance-plot}). One ideally wants a low-bias and high-precision estimator, which is both close to the real value of the parameter on average and, 
 at the same time, has a low spread around such value. The problem is that in real applications one has the possibility to choose from various estimators with different 
 ammounts of bias and variance, and thus choosing among them is, at first, not trivial. This is when the mean-squared error metric comes in handy. The mean-squared 
 error (MSE) of an estimator $\hat{\theta}$ of the parameter $\theta$ is defined as
