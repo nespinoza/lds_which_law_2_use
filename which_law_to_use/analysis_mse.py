@@ -41,7 +41,7 @@ def text_pyx(g, x_coord, y_coord, text_input, text_size = -2, color = None, rota
         g.text(x0, y0, r"\textcolor["+color_palette+"]{"+color_string+"}{"+text_input+"}",textattrs)
 
 from pyx import *
-results = '/Users/nespinoza/github/ld-exosim/results/sic/'
+results = 'results/sic/'
 ld_laws = ['linear','quadratic','squareroot','logarithmic','three-param']
 names = ['Linear law', 'Quadratic law', 'Square-root law', 'Logarithmic law','Three-parameter law']
 rotation = [0.0,11.,3.0,9.,35]
